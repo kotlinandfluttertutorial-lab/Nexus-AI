@@ -1,0 +1,160 @@
+﻿Issue Type,Issue Key,Summary,Epic,Description,Technical Context,Dependencies,Acceptance Criteria,Skills,Expected Areas,Definition of Done
+Task,JIRA-01,Core Foundation,"AI Assistant — MCP, Agent & Document/RAG Architecture",Establish the application's core architecture and reusable infrastructure.,Presentation → Domain → Data; Hilt; Coroutines/Flow; common Result/Error handling; reusable core infrastructure.,Repository/codebase and project steering.,"AC1: Existing repository architecture is inspected and documented.
+AC2: Presentation, Domain and Data responsibilities are clearly separated.
+AC3: Existing DI solution is standardized/reused.
+AC4: Common Result/Error handling is established.
+AC5: Core infrastructure required by later modules is available.
+AC6: Existing functionality continues to work.
+AC7: Unit-test foundation is available.
+AC8: Debug build succeeds.","android, clean-architecture, testing","app/, core/, DI, tests, architecture documentation",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-02,Design System,"AI Assistant — MCP, Agent & Document/RAG Architecture","Establish the reusable Compose/Material 3 design system, including themes, typography, spacing, shapes, components, and accessibility.",Compose + Material 3; state hoisting; stateless components; stable UI state; accessibility; reusable design components.,JIRA-01 Core Foundation.,"AC1: Material 3 is established.
+AC2: Light and dark themes are supported.
+AC3: Typography is centralized.
+AC4: Spacing and shapes are centralized.
+AC5: Reusable UI components are created.
+AC6: Components follow accessibility guidelines.
+AC7: Compose tests cover important reusable components.","android, compose, testing",feature/design-system/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-03,Authentication & Security,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement authentication state, secure token storage, logout, expiration handling, and consistent authentication error handling.",Secure storage; authentication state; token lifecycle; logout; expiration; HTTPS for stage/production; no secrets in source/logs.,JIRA-01 Core Foundation.,"AC1: Authentication state is represented.
+AC2: Tokens are stored securely.
+AC3: Secrets are not hardcoded.
+AC4: Logout clears authenticated state.
+AC5: Session expiration is handled.
+AC6: Authentication errors are represented consistently.
+AC7: Authentication logic has unit tests.","android, security, testing","feature/authentication/, core/security/, secure storage",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-04,AI Provider Abstraction,"AI Assistant — MCP, Agent & Document/RAG Architecture","Create a provider-independent AI abstraction with common request, response, streaming-event, and error models while isolating provider-specific implementations.",AIProvider/AIStreamClient abstraction; AIRequest/AIResponse/AIStreamEvent; Started/Token/ToolCall/ToolResult/Completed/Error streaming model.,JIRA-01 Core Foundation.,"AC1: Provider-independent AI interfaces exist.
+AC2: AI request/response models are defined.
+AC3: Streaming events are standardized.
+AC4: Provider-specific models remain isolated.
+AC5: At least one AI provider is integrated.
+AC6: Provider errors are mapped consistently.
+AC7: A fake provider can be used for tests.","android, clean-architecture, ai-provider, testing","ai/provider/api/, ai/gemini/, ai/openai/",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-05,Chat,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement the AI chat experience with message submission, AI responses, streaming, loading/error states, and clean architecture separation.",Compose → ViewModel → UseCase → Repository → AI orchestration/provider; StateFlow/SharedFlow; streaming and standardized errors.,JIRA-01 Core Foundation; JIRA-02 Design System; JIRA-04 AI Provider Abstraction.,"AC1: User can send a message.
+AC2: AI response is displayed.
+AC3: Streaming responses are supported where available.
+AC4: Loading state is displayed.
+AC5: Error state is displayed.
+AC6: UI does not directly call network/provider APIs.
+AC7: Chat ViewModel/use cases are tested.","android, compose, ai-provider, testing",feature/chat/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-06,Voice,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement voice input with microphone permission handling, start/stop behavior, speech-to-text, lifecycle safety, and integration with chat.",Android microphone permissions; lifecycle-safe speech recognition; speech-to-text; integration with chat submission.,JIRA-05 Chat.,"AC1: Voice input can start and stop.
+AC2: Microphone permission is handled.
+AC3: Speech-to-text result is captured.
+AC4: Voice input can be submitted to Chat.
+AC5: Lifecycle changes are handled safely.
+AC6: Permission and failure states are handled.","android, compose, testing",feature/voice/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-07,Code Assistant,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement code-assistance capabilities for explaining, debugging, improving, and formatting code through the common AI provider abstraction.",AI provider abstraction; long-running operation handling; cancellation/timeouts/errors; code-focused request/response flow.,JIRA-04 AI Provider Abstraction; JIRA-05 Chat patterns.,"AC1: User can submit code.
+AC2: Explain-code operation is supported.
+AC3: Debug/improve operations are supported.
+AC4: Code formatting is preserved.
+AC5: AI provider remains abstracted.
+AC6: Long-running/error states are handled.
+AC7: Business logic is tested.","android, compose, ai-provider, testing",feature/code-assistant/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-08,Image Generation,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement prompt-based image generation behind a provider abstraction with loading, image display, and failure handling.",Provider-independent image-generation abstraction; loading/success/failure UI; provider-specific implementation isolation.,JIRA-04 AI Provider Abstraction; JIRA-02 Design System.,"AC1: User can submit an image prompt.
+AC2: Image-generation provider is abstracted.
+AC3: Loading state is supported.
+AC4: Generated image is displayed.
+AC5: Failure state is supported.
+AC6: Provider implementation remains isolated.","android, compose, ai-provider, testing",feature/image-generation/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-09,Document Processing,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement document selection, metadata handling, text extraction, normalization, observable processing status, and failure handling.",Document → Extraction → Normalization; background-safe processing; metadata and observable processing status.,JIRA-01 Core Foundation; RAG/document architecture.,"AC1: User can select supported documents.
+AC2: Document metadata is captured.
+AC3: Text can be extracted.
+AC4: Extracted content is normalized.
+AC5: Processing does not block the UI thread.
+AC6: Processing status is observable.
+AC7: Extraction failures are handled.
+AC8: Tests cover document-processing logic.","android, clean-architecture, testing, security",document/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-10,RAG,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement the RAG pipeline from document processing through chunking, embeddings, vector storage, retrieval, context assembly, and AI generation.",Document → Extraction → Chunking → Embedding → Vector storage → Retrieval → Context → AI generation; preserve source/page metadata.,JIRA-09 Document Processing; JIRA-04 AI Provider Abstraction.,"AC1: Documents can be chunked.
+AC2: Embeddings can be generated.
+AC3: Embeddings can be stored.
+AC4: Semantic retrieval is supported.
+AC5: Top-K results can be returned.
+AC6: Retrieved context can be passed to AI.
+AC7: Empty retrieval is handled.
+AC8: RAG components have unit tests.","rag, ai-provider, clean-architecture, testing",rag/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-11,MCP,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement MCP server configuration, lifecycle management, capability and tool discovery, invocation, timeout/cancellation, and error handling.","MCP configuration, lifecycle, capability/tool discovery, invocation, timeout/cancellation, validation, and standardized errors.",JIRA-01 Core Foundation; JIRA-13 Tool Execution.,"AC1: MCP server configuration is supported.
+AC2: MCP connection lifecycle is handled.
+AC3: Server capabilities can be discovered.
+AC4: MCP tools can be discovered.
+AC5: MCP tools can be represented as domain/application models.
+AC6: Tools can be invoked.
+AC7: Timeout and cancellation are handled.
+AC8: MCP errors are mapped to application errors.
+AC9: UI does not directly depend on MCP transport.
+AC10: MCP functionality is tested.","mcp, clean-architecture, security, testing","mcp/, .kiro/settings/mcp.json",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-12,Agent Architecture,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement the agent architecture for structured task understanding, context collection, planning, tool selection/execution, observation, multi-step execution, cancellation, and recovery.",User Task → Understanding → Context → Planning → Tool Selection → Execution → Observation → Next Step → Completion; limits and cancellation.,JIRA-04 AI Provider Abstraction; JIRA-11 MCP; JIRA-13 Tool Execution.,"AC1: Agent abstraction is established.
+AC2: Structured tasks can be represented.
+AC3: Agent context can be maintained.
+AC4: Agent can generate a plan.
+AC5: Agent can select application tools.
+AC6: Multi-step execution is supported.
+AC7: Cancellation is supported.
+AC8: Maximum execution limits exist.
+AC9: Tool failures are handled.
+AC10: Agent is independent from Compose UI.
+AC11: Agent logic is testable.","agent, mcp, ai-provider, clean-architecture, testing",agent/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-13,Tool Execution,"AI Assistant — MCP, Agent & Document/RAG Architecture","Create a common application-level Tool abstraction with input/output models, validation, timeout handling, standardized errors, registry support, and MCP integration.",Common Tool interface; input/output models; validation; timeout; standardized errors; registry; MCP-to-application tool mapping.,JIRA-11 MCP; JIRA-12 Agent Architecture.,"AC1: Common Tool interface exists.
+AC2: Tool input/output models are standardized.
+AC3: MCP tools can be represented as application tools.
+AC4: Tool input is validated.
+AC5: Tool execution supports timeout.
+AC6: Tool errors are standardized.
+AC7: Tool Registry exists.
+AC8: Agent can execute registered tools.
+AC9: Tool execution is tested.","mcp, agent, security, testing",tools/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-14,Memory & Conversation,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement conversation and message persistence, history loading, rename/delete operations, Room migrations, and associated tests.",Room persistence; conversations/messages; asynchronous database access; history; rename/delete; migrations.,JIRA-01 Core Foundation; JIRA-05 Chat.,"AC1: Conversations can be persisted.
+AC2: Messages can be persisted.
+AC3: Conversation history can be loaded.
+AC4: Conversations can be renamed.
+AC5: Conversations can be deleted.
+AC6: Room operations are asynchronous.
+AC7: Database migrations are handled.
+AC8: Memory functionality is tested.","android, clean-architecture, testing","memory/, core/database/",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-15,AI Orchestration,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement the AI orchestration layer to route chat, RAG, and agent workflows and coordinate providers, MCP, tools, context, and errors.",AI orchestration routes chat/RAG/agent flows; coordinates MCP/tools; assembles context; standardizes errors.,JIRA-04 AI Provider Abstraction; JIRA-10 RAG; JIRA-11 MCP; JIRA-12 Agent; JIRA-13 Tools; JIRA-14 Memory.,"AC1: AI orchestration layer exists.
+AC2: Chat requests can be routed.
+AC3: RAG requests can be routed.
+AC4: Agent requests can be routed.
+AC5: MCP/tool execution can be coordinated.
+AC6: Conversation context can be supplied.
+AC7: AI errors are standardized.
+AC8: Orchestration has no Compose dependency.
+AC9: End-to-end orchestration scenarios are tested.","ai-provider, agent, mcp, rag, clean-architecture, testing",ai/orchestration/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-16,On-Device AI,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement on-device AI behind the common AI abstraction with capability detection, lifecycle-safe model initialization, offline inference, and explicit cloud fallback.",Common AI abstraction; capability detection; lifecycle-safe model initialization; offline inference; explicit cloud fallback.,JIRA-04 AI Provider Abstraction; JIRA-15 AI Orchestration.,"AC1: On-device AI follows the common AI abstraction.
+AC2: Device capability detection exists.
+AC3: Model initialization is lifecycle-safe.
+AC4: On-device inference does not require network access.
+AC5: Streaming is supported where available.
+AC6: Cloud fallback can be triggered when configured.
+AC7: On-device failures are handled.
+AC8: Capability/inference logic is tested.","android, ai-provider, security, testing",ai/ondevice/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-17,Background Processing,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement WorkManager-based background processing for document and appropriate AI jobs with retry, status tracking, and failure handling.",WorkManager; lifecycle-independent processing; retry; observable status; responsive UI; appropriate AI background jobs.,JIRA-09 Document Processing; JIRA-15 AI Orchestration.,"AC1: WorkManager is used for appropriate long-running work.
+AC2: Document processing can continue outside UI lifecycle.
+AC3: Appropriate AI/background jobs can survive UI recreation.
+AC4: Retry policy is defined.
+AC5: Job status is observable.
+AC6: Failures are represented.
+AC7: UI remains responsive.","android, testing",background/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-18,Observability,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement standardized observability for logging, AI/MCP/tool diagnostics, performance metrics, and monitoring while preventing sensitive information from being logged.",Standardized logging/diagnostics; AI/MCP/tool instrumentation; performance metrics; monitoring; sensitive-data restrictions.,JIRA-04 AI Provider Abstraction; JIRA-11 MCP; JIRA-13 Tools; JIRA-15 AI Orchestration.,"AC1: Application logging is standardized.
+AC2: Sensitive information is excluded from logs.
+AC3: AI operations can be diagnosed.
+AC4: MCP/tool operations can be diagnosed.
+AC5: Important performance metrics can be captured.
+AC6: Errors/crashes can be integrated with the selected monitoring solution.
+AC7: Production logging is appropriately restricted.","android, security, testing",observability/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-19,Testing & CI/CD,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement CI/CD automation for unit tests, Compose/UI tests, lint/static analysis, Android builds, debug validation, and secure externalized configuration.",GitHub Actions; unit/Compose tests; lint/static analysis; Android build; debug validation; externalized secrets.,Implemented features; testing and Git standards.,"AC1: Unit tests execute in CI.
+AC2: Android build executes in CI.
+AC3: Static analysis/lint executes in CI.
+AC4: Critical test failures fail the pipeline.
+AC5: Secrets are externalized.
+AC6: Debug build validation exists.
+AC7: Relevant Compose tests are included.
+AC8: CI results are visible.","android, testing, security",".github/workflows/, Gradle test/lint configuration",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-20,Production & Deployment,"AI Assistant — MCP, Agent & Document/RAG Architecture","Prepare production deployment support for local/stage/production environments, release configuration, R8/ProGuard, validation, deployment documentation, and architecture documentation.",Local/Stage/Production configuration; environment endpoints; external secrets; release build; R8/ProGuard; deployment documentation.,JIRA-19 Testing & CI/CD; JIRA-03 Authentication & Security; JIRA-18 Observability.,"AC1: Local configuration is supported.
+AC2: Stage configuration is supported.
+AC3: Production configuration is supported.
+AC4: Environment-specific endpoints are isolated.
+AC5: Secrets are externalized.
+AC6: Release configuration is reviewed.
+AC7: R8/ProGuard configuration is reviewed.
+AC8: Release build succeeds.
+AC9: Critical application flows are validated.
+AC10: Production deployment documentation exists.
+AC11: Architecture documentation is updated.","android, security, testing","environment/release configuration, R8/ProGuard, docs",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
