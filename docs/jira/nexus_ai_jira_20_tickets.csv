@@ -1,12 +1,94 @@
 ﻿Issue Type,Issue Key,Summary,Epic,Description,Technical Context,Dependencies,Acceptance Criteria,Skills,Expected Areas,Definition of Done
-Task,JIRA-01,Core Foundation,"AI Assistant — MCP, Agent & Document/RAG Architecture",Establish the application's core architecture and reusable infrastructure.,Presentation → Domain → Data; Hilt; Coroutines/Flow; common Result/Error handling; reusable core infrastructure.,Repository/codebase and project steering.,"AC1: Existing repository architecture is inspected and documented.
-AC2: Presentation, Domain and Data responsibilities are clearly separated.
-AC3: Existing DI solution is standardized/reused.
-AC4: Common Result/Error handling is established.
-AC5: Core infrastructure required by later modules is available.
-AC6: Existing functionality continues to work.
-AC7: Unit-test foundation is available.
-AC8: Debug build succeeds.","android, clean-architecture, testing","app/, core/, DI, tests, architecture documentation",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-01,Android App Foundation & GenAI Screen,Agentic AI Full Stack — Android Client,Establish the Android app foundation with Clean Architecture layers and deliver the GenAI screen that lets users enter a prompt and view a generated text response from the FastAPI backend (NAI-AI-01).,Presentation → Domain → Data; Hilt DI; Coroutines/Flow; Retrofit → FastAPI /v1/chat/completions; common Result/Error types; GenAI screen with prompt input and response display.,NAI-AI-01 GenAI Foundations (FastAPI backend must be running).,"""AC1: Clean Architecture layers (Presentation/Domain/Data) are established.
+AC2: Hilt DI is configured.
+AC3: Common Result/Error handling types exist.
+AC4: GenAI screen renders with a prompt input field and a response display area.
+AC5: User can submit a text prompt and receive a generated response from the backend.
+AC6: Temperature and max_tokens are configurable from the screen settings.
+AC7: Loading and error states are handled in the UI.
+AC8: ViewModel and use case are unit tested.
+AC9: Debug build succeeds.""","android, clean-architecture, testing","app/, core/domain/, core/data/, feature/genai/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-02,Transformer & Embeddings Explorer Screen,Agentic AI Full Stack — Android Client,Deliver a Transformer Architecture explorer screen where users can tokenize text and visualise embedding similarity scores returned from the FastAPI embeddings endpoint (NAI-AI-02).,Compose tokenisation input; POST /v1/embeddings call via Retrofit; similarity score display; Material 3 design system established; semantic similarity visualisation.,JIRA-01 App Foundation; NAI-AI-02 (embeddings backend).,"""AC1: Material 3 theme (light + dark) is established and applied globally.
+AC2: Typography and spacing tokens are centralised.
+AC3: Reusable card and input components are created.
+AC4: Tokenisation input screen accepts text and displays token count.
+AC5: Embedding request is sent to /v1/embeddings; response dimension is displayed.
+AC6: Cosine similarity between two sentences is computed client-side and shown.
+AC7: Loading and error states are handled.
+AC8: Compose tests cover the design system components.
+AC9: Debug build succeeds.""","android, compose, testing","core/ui/, feature/embeddings/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-03,Multi-Provider LLM Chat Screen,Agentic AI Full Stack — Android Client,Deliver the multi-provider chat screen that allows users to select an LLM provider (OpenAI / Gemini) and chat with streaming token display. The screen calls the FastAPI /v1/chat/completions endpoint (NAI-AI-03).,Retrofit streaming (SSE or chunked); provider selector UI; StateFlow<ChatUiState>; streaming token accumulation in ViewModel; secure API key storage via EncryptedSharedPreferences.,JIRA-01 App Foundation; JIRA-02 Design System; NAI-AI-03 (multi-provider FastAPI backend).,"""AC1: Provider selector (OpenAI / Gemini) is shown on the chat screen.
+AC2: User can send a message and receive a streamed response.
+AC3: Tokens appear progressively as the stream arrives.
+AC4: Switching provider changes the active provider without restarting the screen.
+AC5: API key is stored securely — never hardcoded.
+AC6: Loading and error states are handled.
+AC7: The UI does not call provider SDKs directly — all calls go through the domain layer.
+AC8: ViewModel and streaming use case are unit tested with a fake provider.
+AC9: Debug build succeeds.""","android, compose, security, testing","feature/chat/, core/network/, core/security/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-04,Prompt Engineering Studio Screen,Agentic AI Full Stack — Android Client,Deliver the Prompt Engineering studio screen where users can select a prompt strategy (zero-shot / few-shot / role-based / structured output) apply variable chips and run the prompt against the backend (NAI-AI-04).,Prompt template selector UI; variable chip input; strategy tabs; response preview with JSON validation badge; POST to /v1/chat/completions with rendered prompt.,JIRA-03 Chat screen; NAI-AI-04 (prompt engineering backend).,"""AC1: Strategy selector shows zero-shot, few-shot, role-based, and structured output tabs.
+AC2: Variable chips allow named placeholder substitution before sending.
+AC3: Rendered prompt preview is displayed before submission.
+AC4: Structured output responses show a JSON validation badge (valid/invalid).
+AC5: Input size limit is enforced in the UI before the request is sent.
+AC6: Response is displayed with appropriate formatting.
+AC7: Loading and error states are handled.
+AC8: ViewModel and use case are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/prompt-studio/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-05,Ollama Local Model Screen,Agentic AI Full Stack — Android Client,Deliver an Ollama connection screen where users can configure the local Ollama URL select a model and chat with on-device responses. Also demonstrates the OpenAI-compatible /v1/ mode (NAI-AI-05).,Ollama URL configuration stored in DataStore; model list fetched from /api/tags; chat routed through OllamaProvider adapter; latency display; OpenAI-compat mode toggle.,JIRA-03 Chat screen; NAI-AI-05 (Ollama backend).,"""AC1: Ollama server URL is configurable and persisted in DataStore.
+AC2: Available models are fetched from the Ollama instance and displayed.
+AC3: User can select a model and send a chat message via Ollama.
+AC4: Streaming response tokens appear progressively.
+AC5: Inference latency per response is displayed.
+AC6: OpenAI-compatible mode can be toggled and the endpoint changes accordingly.
+AC7: Connection failure shows a clear error with a retry action.
+AC8: ViewModel and use case are unit tested with a fake Ollama HTTP client.
+AC9: Debug build succeeds.""","android, compose, testing","feature/ollama/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-06,Flask LLM Service Integration Screen,Agentic AI Full Stack — Android Client,Deliver a Flask service connection screen where users can point the app at the Flask backend (NAI-AI-06) and test chat and model-listing endpoints directly from Android.,Flask base URL configuration in DataStore; Retrofit service for /v1/chat/completions and /v1/models; health check indicator; JSON request/response inspector card.,JIRA-03 Chat screen; NAI-AI-06 (Flask LLM service).,"""AC1: Flask base URL is configurable and persisted.
+AC2: Health check calls GET /health and displays connection status.
+AC3: Available models are fetched from GET /v1/models and listed.
+AC4: User can send a chat request to the Flask service and see the response.
+AC5: Raw JSON request and response are shown in an inspector card.
+AC6: Authentication error (401) is shown with a clear user message.
+AC7: Loading and error states are handled.
+AC8: ViewModel and repository are unit tested with a fake Retrofit client.
+AC9: Debug build succeeds.""","android, compose, testing","feature/flask-service/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-07,API Test Runner Screen,Agentic AI Full Stack — Android Client,Deliver an on-device API test runner screen that executes a predefined suite of API checks against the LLM services (NAI-AI-07) and displays pass/fail results with response details.,Test suite definition as data classes; sequential test execution via coroutines; result list with pass/fail/error badges; expandable request-response detail; export report action.,JIRA-06 Flask screen; JIRA-01 Foundation; NAI-AI-07 (service testing).,"""AC1: At least 5 pre-defined API test cases are bundled (health, chat, models, auth failure, streaming).
+AC2: User can run all tests with a single action.
+AC3: Each test shows a pass/fail/error badge with HTTP status code.
+AC4: Failed tests show the expected vs actual response.
+AC5: Test execution does not block the UI thread.
+AC6: Results can be exported as a text summary.
+AC7: Tests run sequentially and the running test is highlighted.
+AC8: ViewModel and test runner use case are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/api-tester/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-08,FastAPI Service Dashboard Screen,Agentic AI Full Stack — Android Client,Deliver a FastAPI service dashboard screen showing live endpoint status health readiness and allowing the user to send chat and embedding requests to the FastAPI backend (NAI-AI-08).,FastAPI base URL config; Retrofit clients for /health /readiness /v1/chat/completions /v1/embeddings /v1/models; endpoint status cards; response time display.,JIRA-03 Chat; JIRA-01 Foundation; NAI-AI-08 (FastAPI service).,"""AC1: FastAPI base URL is configurable and persisted.
+AC2: /health and /readiness endpoint status cards are shown with live indicators.
+AC3: Available models are listed from GET /v1/models.
+AC4: User can send a chat completion request and see the response.
+AC5: User can send an embedding request and see the returned vector dimension.
+AC6: Response time (ms) is displayed per request.
+AC7: Authentication errors show a clear message.
+AC8: ViewModel and repository are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/fastapi-dashboard/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-09,Hugging Face Model Browser Screen,Agentic AI Full Stack — Android Client,Deliver a Hugging Face model browser screen where users can view available models their licenses RAM requirements and run a text generation request through the HF backend (NAI-AI-09).,HF model registry fetched from FastAPI; model cards showing name/license/RAM/VRAM; inference request via /v1/chat/completions with HF provider; dataset sample viewer.,JIRA-08 FastAPI Dashboard; NAI-AI-09 (HuggingFace backend).,"""AC1: Model list is fetched from the backend and displayed as cards.
+AC2: Each model card shows name, license, and minimum RAM/VRAM.
+AC3: User can select a model and send a generation request.
+AC4: Response is displayed with generation latency.
+AC5: A dataset sample viewer shows feature names and one example row from the HF dataset endpoint.
+AC6: Model weight disclaimer is shown (weights not stored on device).
+AC7: Loading and error states are handled.
+AC8: ViewModel and use case are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/hf-browser/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-10,Advanced LLM Features Screen,Agentic AI Full Stack — Android Client,"Deliver an advanced features screen demonstrating structured JSON output, streaming, function/tool calling round-trip, and vision input on Android by calling the FastAPI advanced endpoints (NAI-AI-10).","Structured output tab (JSON schema input + validated response); streaming demo tab (live token display); tool calling tab (tool definition + round-trip trace); vision tab (image picker + base64 upload + response).",JIRA-08 FastAPI Dashboard; NAI-AI-10 (advanced LLM backend).,"""AC1: Structured output tab sends a JSON schema and displays a parsed and validated response.
+AC2: Streaming tab shows tokens appearing progressively in real time.
+AC3: Tool calling tab shows the model's tool request and the result fed back.
+AC4: Vision tab allows picking an image and shows the model's description.
+AC5: Feature-not-supported errors are shown with a clear message instead of a crash.
+AC6: All four feature tabs are independently usable.
+AC7: Loading and error states are handled per tab.
+AC8: ViewModel and use cases are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/advanced-llm/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
 Task,JIRA-02,Design System,"AI Assistant — MCP, Agent & Document/RAG Architecture","Establish the reusable Compose/Material 3 design system, including themes, typography, spacing, shapes, components, and accessibility.",Compose + Material 3; state hoisting; stateless components; stable UI state; accessibility; reusable design components.,JIRA-01 Core Foundation.,"AC1: Material 3 is established.
 AC2: Light and dark themes are supported.
 AC3: Typography is centralized.
@@ -70,91 +152,282 @@ AC5: Top-K results can be returned.
 AC6: Retrieved context can be passed to AI.
 AC7: Empty retrieval is handled.
 AC8: RAG components have unit tests.","rag, ai-provider, clean-architecture, testing",rag/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-11,MCP,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement MCP server configuration, lifecycle management, capability and tool discovery, invocation, timeout/cancellation, and error handling.","MCP configuration, lifecycle, capability/tool discovery, invocation, timeout/cancellation, validation, and standardized errors.",JIRA-01 Core Foundation; JIRA-13 Tool Execution.,"AC1: MCP server configuration is supported.
-AC2: MCP connection lifecycle is handled.
-AC3: Server capabilities can be discovered.
-AC4: MCP tools can be discovered.
-AC5: MCP tools can be represented as domain/application models.
-AC6: Tools can be invoked.
-AC7: Timeout and cancellation are handled.
-AC8: MCP errors are mapped to application errors.
-AC9: UI does not directly depend on MCP transport.
-AC10: MCP functionality is tested.","mcp, clean-architecture, security, testing","mcp/, .kiro/settings/mcp.json",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-12,Agent Architecture,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement the agent architecture for structured task understanding, context collection, planning, tool selection/execution, observation, multi-step execution, cancellation, and recovery.",User Task → Understanding → Context → Planning → Tool Selection → Execution → Observation → Next Step → Completion; limits and cancellation.,JIRA-04 AI Provider Abstraction; JIRA-11 MCP; JIRA-13 Tool Execution.,"AC1: Agent abstraction is established.
-AC2: Structured tasks can be represented.
-AC3: Agent context can be maintained.
-AC4: Agent can generate a plan.
-AC5: Agent can select application tools.
-AC6: Multi-step execution is supported.
-AC7: Cancellation is supported.
-AC8: Maximum execution limits exist.
-AC9: Tool failures are handled.
-AC10: Agent is independent from Compose UI.
-AC11: Agent logic is testable.","agent, mcp, ai-provider, clean-architecture, testing",agent/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-13,Tool Execution,"AI Assistant — MCP, Agent & Document/RAG Architecture","Create a common application-level Tool abstraction with input/output models, validation, timeout handling, standardized errors, registry support, and MCP integration.",Common Tool interface; input/output models; validation; timeout; standardized errors; registry; MCP-to-application tool mapping.,JIRA-11 MCP; JIRA-12 Agent Architecture.,"AC1: Common Tool interface exists.
-AC2: Tool input/output models are standardized.
-AC3: MCP tools can be represented as application tools.
-AC4: Tool input is validated.
-AC5: Tool execution supports timeout.
-AC6: Tool errors are standardized.
-AC7: Tool Registry exists.
-AC8: Agent can execute registered tools.
-AC9: Tool execution is tested.","mcp, agent, security, testing",tools/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-14,Memory & Conversation,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement conversation and message persistence, history loading, rename/delete operations, Room migrations, and associated tests.",Room persistence; conversations/messages; asynchronous database access; history; rename/delete; migrations.,JIRA-01 Core Foundation; JIRA-05 Chat.,"AC1: Conversations can be persisted.
-AC2: Messages can be persisted.
-AC3: Conversation history can be loaded.
-AC4: Conversations can be renamed.
-AC5: Conversations can be deleted.
-AC6: Room operations are asynchronous.
-AC7: Database migrations are handled.
-AC8: Memory functionality is tested.","android, clean-architecture, testing","memory/, core/database/",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-15,AI Orchestration,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement the AI orchestration layer to route chat, RAG, and agent workflows and coordinate providers, MCP, tools, context, and errors.",AI orchestration routes chat/RAG/agent flows; coordinates MCP/tools; assembles context; standardizes errors.,JIRA-04 AI Provider Abstraction; JIRA-10 RAG; JIRA-11 MCP; JIRA-12 Agent; JIRA-13 Tools; JIRA-14 Memory.,"AC1: AI orchestration layer exists.
-AC2: Chat requests can be routed.
-AC3: RAG requests can be routed.
-AC4: Agent requests can be routed.
-AC5: MCP/tool execution can be coordinated.
-AC6: Conversation context can be supplied.
-AC7: AI errors are standardized.
-AC8: Orchestration has no Compose dependency.
-AC9: End-to-end orchestration scenarios are tested.","ai-provider, agent, mcp, rag, clean-architecture, testing",ai/orchestration/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-16,On-Device AI,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement on-device AI behind the common AI abstraction with capability detection, lifecycle-safe model initialization, offline inference, and explicit cloud fallback.",Common AI abstraction; capability detection; lifecycle-safe model initialization; offline inference; explicit cloud fallback.,JIRA-04 AI Provider Abstraction; JIRA-15 AI Orchestration.,"AC1: On-device AI follows the common AI abstraction.
-AC2: Device capability detection exists.
-AC3: Model initialization is lifecycle-safe.
-AC4: On-device inference does not require network access.
-AC5: Streaming is supported where available.
-AC6: Cloud fallback can be triggered when configured.
-AC7: On-device failures are handled.
-AC8: Capability/inference logic is tested.","android, ai-provider, security, testing",ai/ondevice/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-17,Background Processing,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement WorkManager-based background processing for document and appropriate AI jobs with retry, status tracking, and failure handling.",WorkManager; lifecycle-independent processing; retry; observable status; responsive UI; appropriate AI background jobs.,JIRA-09 Document Processing; JIRA-15 AI Orchestration.,"AC1: WorkManager is used for appropriate long-running work.
-AC2: Document processing can continue outside UI lifecycle.
-AC3: Appropriate AI/background jobs can survive UI recreation.
-AC4: Retry policy is defined.
-AC5: Job status is observable.
-AC6: Failures are represented.
-AC7: UI remains responsive.","android, testing",background/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-18,Observability,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement standardized observability for logging, AI/MCP/tool diagnostics, performance metrics, and monitoring while preventing sensitive information from being logged.",Standardized logging/diagnostics; AI/MCP/tool instrumentation; performance metrics; monitoring; sensitive-data restrictions.,JIRA-04 AI Provider Abstraction; JIRA-11 MCP; JIRA-13 Tools; JIRA-15 AI Orchestration.,"AC1: Application logging is standardized.
-AC2: Sensitive information is excluded from logs.
-AC3: AI operations can be diagnosed.
-AC4: MCP/tool operations can be diagnosed.
-AC5: Important performance metrics can be captured.
-AC6: Errors/crashes can be integrated with the selected monitoring solution.
-AC7: Production logging is appropriately restricted.","android, security, testing",observability/,Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-19,Testing & CI/CD,"AI Assistant — MCP, Agent & Document/RAG Architecture","Implement CI/CD automation for unit tests, Compose/UI tests, lint/static analysis, Android builds, debug validation, and secure externalized configuration.",GitHub Actions; unit/Compose tests; lint/static analysis; Android build; debug validation; externalized secrets.,Implemented features; testing and Git standards.,"AC1: Unit tests execute in CI.
-AC2: Android build executes in CI.
-AC3: Static analysis/lint executes in CI.
-AC4: Critical test failures fail the pipeline.
-AC5: Secrets are externalized.
-AC6: Debug build validation exists.
-AC7: Relevant Compose tests are included.
-AC8: CI results are visible.","android, testing, security",".github/workflows/, Gradle test/lint configuration",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
-Task,JIRA-20,Production & Deployment,"AI Assistant — MCP, Agent & Document/RAG Architecture","Prepare production deployment support for local/stage/production environments, release configuration, R8/ProGuard, validation, deployment documentation, and architecture documentation.",Local/Stage/Production configuration; environment endpoints; external secrets; release build; R8/ProGuard; deployment documentation.,JIRA-19 Testing & CI/CD; JIRA-03 Authentication & Security; JIRA-18 Observability.,"AC1: Local configuration is supported.
-AC2: Stage configuration is supported.
-AC3: Production configuration is supported.
-AC4: Environment-specific endpoints are isolated.
-AC5: Secrets are externalized.
-AC6: Release configuration is reviewed.
-AC7: R8/ProGuard configuration is reviewed.
-AC8: Release build succeeds.
-AC9: Critical application flows are validated.
-AC10: Production deployment documentation exists.
-AC11: Architecture documentation is updated.","android, security, testing","environment/release configuration, R8/ProGuard, docs",Implementation complete; existing functionality continues to work; tests pass; build succeeds; every acceptance criterion is individually verified with evidence; no known critical regression.
+Task,JIRA-11,Agentic AI Screen,Agentic AI Full Stack — Android Client,Deliver the Agentic AI screen where users can submit a task and watch the agent execution loop plan select tools and complete multi-step reasoning by calling the FastAPI agent endpoint (NAI-AI-11).,Compose task input; POST /v1/agents/run via Retrofit; execution trace display (step cards with thought/tool/result); step counter; cancellation button; AgentResult sealed state in ViewModel.,JIRA-10 Advanced LLM; NAI-AI-11 (agent runtime backend).,"""AC1: User can submit a task description and a max_steps value.
+AC2: Agent execution trace is displayed step by step as the response streams.
+AC3: Each step card shows the thought, tool name, tool input, and tool output.
+AC4: Step counter shows current step vs maximum.
+AC5: Cancel button stops the running agent and shows a CANCELLED status.
+AC6: STEP_LIMIT_REACHED status is displayed clearly when the limit is hit.
+AC7: Success and failure states are handled with appropriate messages.
+AC8: ViewModel and use case are unit tested with a fake agent response.
+AC9: Debug build succeeds.""","android, compose, testing","feature/agent/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-12,LangChain Integration Screen,Agentic AI Full Stack — Android Client,Deliver a LangChain demo screen showing RAG chain execution with retrieved sources document Q&A and tool invocation results returned from the FastAPI LangChain endpoints (NAI-AI-12).,Compose question input; POST /v1/rag/query; answer display with source reference cards; relevance score badges; chain type selector (RAG / document QA / tool).,JIRA-11 Agent screen; NAI-AI-12 (LangChain backend).,"""AC1: User can enter a question and submit it to the LangChain RAG chain.
+AC2: The answer is displayed with cited source references.
+AC3: Each source card shows document name, page, and relevance score.
+AC4: Chain type can be switched between RAG, document QA, and tool-based.
+AC5: Streaming tokens appear progressively where the chain supports it.
+AC6: Empty retrieval is shown with a clear 'No relevant sources found' message.
+AC7: Loading and error states are handled.
+AC8: ViewModel and use case are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/langchain/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-13,Agent Memory Screen,Agentic AI Full Stack — Android Client,Deliver an agent memory screen where users can view session and long-term memory entries search memory by query and clear session memory. Memory data comes from the FastAPI memory endpoints (NAI-AI-13).,Compose memory list with category filter chips (Session / Long-term / Conversation); GET /v1/memory/{session_id}; search field; DELETE /v1/memory/{session_id}; retention indicator per entry.,JIRA-11 Agent screen; NAI-AI-13 (agent memory backend).,"""AC1: Memory entries are loaded and displayed in a list.
+AC2: Filter chips allow switching between Session, Long-term, and Conversation categories.
+AC3: Search field filters entries by content keyword.
+AC4: Retention information (max turns remaining) is shown per entry.
+AC5: User can clear all session memory with a confirmation dialog.
+AC6: Individual memory entries can be deleted.
+AC7: Loading and error states are handled.
+AC8: ViewModel and repository are unit tested.
+AC9: Debug build succeeds.""","android, compose, testing","feature/memory/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-14,RAG Pipeline Screen,Agentic AI Full Stack — Android Client,"Deliver a RAG pipeline screen where users can upload a document, watch the ingestion pipeline stages (Extract → Chunk → Embed → Store), submit a question, and see the answer with source references (NAI-AI-14).",Compose document picker; POST /v1/rag/ingest with progress stepper (Extract / Chunk / Embed / Store); POST /v1/rag/query; answer card; source passage cards; hybrid search toggle.,JIRA-08 FastAPI Dashboard; NAI-AI-14 (RAG pipeline backend).,"""AC1: User can pick a document (PDF/TXT/MD) and start ingestion.
+AC2: Pipeline stepper shows each stage (Extract → Chunk → Embed → Store) with live status.
+AC3: Ingestion failure shows the failing stage with an error message.
+AC4: User can enter a question after ingestion and receive an answer.
+AC5: Answer is displayed with source document name, page, and relevance score.
+AC6: Hybrid search toggle switches between semantic and BM25+semantic modes.
+AC7: Empty retrieval shows a clear 'No relevant content found' message.
+AC8: Loading and error states are handled.
+AC9: ViewModel and use cases are unit tested.
+AC10: Debug build succeeds.""","android, compose, testing","feature/rag/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-15,Vector Database Explorer Screen,Agentic AI Full Stack — Android Client,Deliver a vector database explorer screen where users can view stored document chunks run similarity searches apply metadata filters and inspect relevance scores from the ChromaDB backend (NAI-AI-15).,Compose search input; POST /v1/rag/search; result cards with relevance score bar; metadata filter chips (by document_id); chunk content expandable card; collection stats (count).,JIRA-14 RAG Pipeline screen; NAI-AI-15 (vector DB backend).,"""AC1: Search input submits a query and displays top-K results as cards.
+AC2: Each result card shows chunk content, source, page, and a relevance score bar.
+AC3: Metadata filter chips restrict results to a specific document.
+AC4: Collection stats show total chunk count.
+AC5: Relevance scores are normalized [0–1] and colour-coded (green/amber/red).
+AC6: User can expand a chunk card to see the full text passage.
+AC7: Empty results show a clear message.
+AC8: Loading and error states are handled.
+AC9: ViewModel and repository are unit tested.
+AC10: Debug build succeeds.""","android, compose, testing","feature/vector-db/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-16,LangGraph Workflow Screen,Agentic AI Full Stack — Android Client,Deliver a LangGraph workflow screen where users can submit a research query watch the stateful graph execute node by node with checkpoint support and trigger the human approval gate (NAI-AI-16).,Compose research query input; POST /v1/agents/graph/run; vertical workflow node cards (Planner/Researcher/HumanReview/Summariser); step counter; approval action; checkpoint resume.,JIRA-11 Agent screen; NAI-AI-16 (LangGraph backend).,"""AC1: User can submit a research query and a max_steps value.
+AC2: Workflow nodes are displayed vertically with status (Pending / Running / Done / Failed).
+AC3: Step counter shows progress against the maximum.
+AC4: When the workflow reaches a human approval gate, an Approve/Reject action appears.
+AC5: Approving resumes the workflow; rejecting shows a stopped state.
+AC6: Checkpoint ID is shown so the user knows the workflow can be resumed.
+AC7: Final summary result is displayed when the workflow completes.
+AC8: Step-limit-reached and error states are shown clearly.
+AC9: ViewModel and use case are unit tested.
+AC10: Debug build succeeds.""","android, compose, testing","feature/langgraph/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-17,MCP Server & Tools Screen,Agentic AI Full Stack — Android Client,Deliver an MCP integration screen where users can configure an MCP server URL discover tools and resources invoke a tool and inspect the result. Calls the FastAPI MCP endpoints (NAI-AI-17).,Compose server URL config; GET /v1/mcp/tools; GET /v1/mcp/resources; tool card (name/description/schema); POST /v1/mcp/tools/{name}/invoke; resource reader; connection status indicator.,JIRA-08 FastAPI Dashboard; NAI-AI-17 (MCP backend).,"""AC1: MCP server URL is configurable and persisted.
+AC2: Connection status indicator shows Connected / Disconnected / Reconnecting.
+AC3: Discovered tools are listed as cards with name, description, and input schema.
+AC4: Discovered resources are listed with URI, name, and MIME type.
+AC5: User can select a tool, fill in input fields, and invoke it.
+AC6: Tool invocation result is shown in an expandable result card.
+AC7: Resource content can be read and displayed.
+AC8: Timeout and error states show clear messages.
+AC9: ViewModel and repository are unit tested.
+AC10: Debug build succeeds.""","android, compose, testing","feature/mcp/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-18,Multi-Agent System Screen,Agentic AI Full Stack — Android Client,Deliver a multi-agent screen where users can submit a research task and watch the supervisor delegate to specialist agents with a delegation trace and aggregated result (NAI-AI-18).,Compose task input; POST /v1/agents/multi/run; supervisor + specialist agent status cards; delegation trace list; round counter; aggregated result display; per-agent step counts.,JIRA-11 Agent screen; NAI-AI-18 (multi-agent backend).,"""AC1: User can submit a task and a max_rounds value.
+AC2: Supervisor agent card and specialist agent cards are shown with status badges.
+AC3: Delegation trace shows which specialist handled each round.
+AC4: Round counter shows current round vs maximum.
+AC5: Each specialist card shows its step count and final status.
+AC6: Aggregated result is displayed when the supervisor completes.
+AC7: STEP_LIMIT_REACHED and CANCELLED states are shown clearly.
+AC8: Agent communication summary is shown in a collapsible section.
+AC9: ViewModel and use case are unit tested.
+AC10: Debug build succeeds.""","android, compose, testing","feature/multi-agent/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-19,AI Evaluation Dashboard Screen,Agentic AI Full Stack — Android Client,Deliver an AI evaluation dashboard screen showing RAG and agent evaluation reports with metric cards for faithfulness relevance hallucination score latency and cost from the FastAPI evaluation endpoints (NAI-AI-19).,Compose metric cards (faithfulness/relevance/hallucination/latency/cost); GET /v1/evaluation/reports; report list with model version and dataset version; metric trend indicator; drill-down detail screen.,JIRA-14 RAG screen; JIRA-11 Agent screen; NAI-AI-19 (evaluation backend).,"""AC1: Report list shows available evaluation runs with model version, dataset version, and date.
+AC2: Faithfulness, answer relevance, and hallucination score metric cards are shown.
+AC3: P50 and P95 latency are displayed per report.
+AC4: Estimated cost per request is shown.
+AC5: Agent task completion rate is shown for agent evaluation reports.
+AC6: Two reports can be compared side-by-side on a detail screen.
+AC7: Metric cards use colour coding (green/amber/red) relative to threshold.
+AC8: Loading and error states are handled.
+AC9: ViewModel and repository are unit tested.
+AC10: Debug build succeeds.""","android, compose, testing","feature/evaluation/",Implementation complete; all ACs individually verified with evidence; tests pass; debug build succeeds.
+Task,JIRA-20,Deployment & Production Settings Screen,Agentic AI Full Stack — Android Client,Deliver the production settings screen where users configure backend environment (local/staging/production) endpoints API keys theme and view app info. Also verifies production build configuration R8 and CI/CD pipeline.,Environment selector (Local/Stage/Production); endpoint URL per environment stored in DataStore; API key management via EncryptedSharedPreferences; theme switch; CI/CD GitHub Actions; R8/ProGuard config.,JIRA-19 Evaluation screen; NAI-AI-20 (deployment backend).,"""AC1: Environment selector switches between Local, Stage, and Production endpoints.
+AC2: Selected endpoint URLs are persisted in DataStore per environment.
+AC3: API keys are stored in EncryptedSharedPreferences — never in plain storage.
+AC4: Theme switch (dark/light) is functional and persisted.
+AC5: App version, build type, and active environment are shown in About section.
+AC6: Backend health check is triggered for the selected environment and result is shown.
+AC7: Release build succeeds with R8 enabled and no critical class stripping.
+AC8: GitHub Actions CI pipeline builds debug and runs unit tests.
+AC9: Secrets are externalized — no API keys hardcoded in source.
+AC10: Production deployment documentation exists in docs/.
+AC11: Debug and release builds both succeed.""","android, compose, security, testing","feature/settings/, infrastructure/",Implementation complete; all ACs individually verified with evidence; tests pass; release build succeeds; no secrets in source.
+Task,NAI-AI-01,GenAI Foundations,AI Roadmap — Full Stack Agentic AI,Establish GenAI foundations: hosted inference API integration with configurable generation parameters (temperature and max output tokens). Build a text-generation service that demonstrates LLM basics.,Python; hosted LLM provider (OpenAI/Gemini); generation parameter configuration; basic inference pipeline.,None.,"AC1: Hosted LLM API is called successfully.
+AC2: Temperature and max_tokens are configurable.
+AC3: Text generation produces a non-empty response.
+AC4: Invalid parameter values are rejected with structured errors.
+AC5: API key is loaded from environment — never hardcoded.
+AC6: A working text-generation endpoint exists.
+AC7: Unit tests cover generation service logic.","fastapi, evaluation",learning/01-genai/ backend/fastapi-service/,Implementation complete; every AC individually verified with evidence; no secrets in source; tests pass; build succeeds.
+Task,NAI-AI-02,Transformer Architecture & Embeddings,AI Roadmap — Full Stack Agentic AI,"Explore transformer architecture through experiments: tokenization vocabulary sizes, positional encoding, self-attention mechanics, and multi-head attention. Generate and compare text embeddings. Measure semantic similarity between sentences using cosine distance.","Python; Hugging Face Tokenizers; Sentence Transformers; numpy; cosine similarity; scaled dot-product attention; positional encoding.",None.,"AC1: Tokenizer loads and encodes sample text.
+AC2: Token counts and vocabulary sizes are reported.
+AC3: Positional encoding vectors are generated and printed for a short sequence.
+AC4: Single-head scaled dot-product attention demonstrated with toy Q/K/V matrices.
+AC5: Multi-head attention demonstrated showing per-head computation and concatenation.
+AC6: Text embeddings are generated with consistent dimensions.
+AC7: Cosine similarity between semantically similar sentences is measurably higher than dissimilar pairs.
+AC8: Embedding dimension is documented for each model used.
+AC9: Experiments are documented with results.
+AC10: Unit tests cover similarity calculation logic.","huggingface, evaluation",learning/02-transformers-embeddings/ backend/model-serving/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-03,Working with LLMs,AI Roadmap — Full Stack Agentic AI,Create a provider-independent LLM client interface. Integrate at least two hosted LLM APIs. Support streaming token delivery and file-based input. Build a multi-provider chat application.,Python; LLMProvider protocol; OpenAI and Gemini SDKs; streaming via AsyncIterator; provider adapter pattern.,None.,"AC1: LLMProvider protocol is defined in the domain layer.
+AC2: At least two provider adapters are implemented (e.g. OpenAI and Gemini).
+AC3: Active provider is switchable without changing caller code.
+AC4: Streaming token delivery is supported.
+AC5: Provider-specific SDK types do not appear outside their adapter.
+AC6: Provider errors are mapped to domain error types.
+AC7: A fake provider is available for tests.
+AC8: Unit tests cover provider switching and streaming.","fastapi, evaluation",backend/fastapi-service/ backend/model-serving/providers/,Implementation complete; every AC individually verified with evidence; tests pass; build succeeds.
+Task,NAI-AI-04,Prompt Engineering,AI Roadmap — Full Stack Agentic AI,"Implement reusable versioned prompt templates. Explore zero-shot, few-shot, role-based and structured output prompts. Add input size constraints, output validation, and prompt-injection mitigations.",Python; Jinja2 or f-string templates; prompt versioning; output schema validation; injection defense patterns.,NAI-AI-03 Working with LLMs.,"AC1: Reusable prompt templates are defined with named input variables.
+AC2: At least three prompt strategies are implemented (zero-shot, few-shot, role-based).
+AC3: Structured output prompts produce parseable JSON.
+AC4: Input size constraints are enforced before sending to the LLM.
+AC5: Output validation rejects responses that do not match the expected schema.
+AC6: Prompt templates are versioned.
+AC7: Tests cover template rendering and output validation.","fastapi, evaluation",backend/fastapi-service/ learning/04-prompt-engineering/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-05,Self-Hosted LLMs with Ollama,AI Roadmap — Full Stack Agentic AI,"Install and operate Ollama locally. Pull and configure at least one supported model. Integrate the Ollama HTTP API into the backend as a provider adapter. Demonstrate Ollama's OpenAI-compatible /v1/ API. Measure local inference latency.",Python; Ollama HTTP API; OpenAI-compatible /v1/ endpoint; LLMProvider adapter; latency measurement; model selection configuration.,NAI-AI-03 Working with LLMs.,"AC1: Ollama service starts and passes a health check.
+AC2: At least one model is pulled and selectable by name.
+AC3: An OllamaProvider adapter implements the LLMProvider protocol.
+AC4: Chat completion and streaming endpoints work via Ollama.
+AC5: Provider-specific Ollama types stay inside the adapter.
+AC6: Inference latency is measured and logged.
+AC7: Ollama's OpenAI-compatible /v1/ endpoint is demonstrated using the openai SDK pointed at localhost:11434.
+AC8: Tests cover the adapter using a fake Ollama HTTP client.","fastapi, evaluation",backend/model-serving/ollama/ learning/05-ollama/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-06,LLM as a Service with Flask,AI Roadmap — Full Stack Agentic AI,Create a separately runnable Flask LLM inference API with chat and model-info endpoints. Handle request validation and error responses. Connect the service to a configured model provider.,Python; Flask; application factory pattern; Blueprint routing; provider service layer; SSE streaming.,NAI-AI-03 Working with LLMs.,"AC1: Flask app uses the application factory pattern (create_app).
+AC2: POST /v1/chat/completions endpoint is implemented.
+AC3: GET /v1/models endpoint returns available models.
+AC4: GET /health endpoint returns 200 OK.
+AC5: Request validation rejects missing or malformed bodies with 400.
+AC6: Provider is wired through a service layer — not directly in route handlers.
+AC7: API key authentication is required for inference endpoints.
+AC8: SSE streaming is supported.
+AC9: Tests cover all endpoints using a fake provider.","flask, evaluation",backend/flask-service/,Implementation complete; every AC individually verified with evidence; tests pass; service runs standalone.
+Task,NAI-AI-07,LLM Service Testing,AI Roadmap — Full Stack Agentic AI,Create a comprehensive API test suite for the Flask and FastAPI LLM services. Cover request validation and authentication errors. Add automated integration tests using fake providers. Verify streaming and non-streaming responses.,Python; pytest; httpx; Bruno or Postman collection; fake provider fixtures; streaming test helpers.,NAI-AI-06 Flask LLM Service; NAI-AI-08 FastAPI LLM Service.,"AC1: A Bruno or Postman collection covers all major endpoints.
+AC2: Automated pytest tests cover happy-path chat completions.
+AC3: Tests cover missing/malformed request bodies.
+AC4: Tests cover authentication failure (missing or invalid API key).
+AC5: Tests cover streaming responses (SSE event sequence validated).
+AC6: Tests cover provider error propagation (fake provider returns error).
+AC7: All tests use fake/stub providers — no real LLM API calls.
+AC8: Test report is generated and shows pass/fail results.","flask, fastapi, evaluation",backend/flask-service/tests/ backend/fastapi-service/tests/ learning/07-service-testing/,Implementation complete; every AC individually verified with evidence; all tests pass.
+Task,NAI-AI-08,Building LLM Services with FastAPI,AI Roadmap — Full Stack Agentic AI,Build the primary Nexus AI Python backend using FastAPI. Define typed Pydantic request and response models. Implement API key authentication and provider service injection. Add OpenAPI documentation and service-level tests.,Python; FastAPI; Pydantic v2; pydantic-settings; httpx; structured error responses; OpenAPI.,NAI-AI-03 Working with LLMs.,"AC1: FastAPI application uses dependency injection for all services.
+AC2: All request and response bodies have Pydantic models.
+AC3: POST /v1/chat/completions endpoint works with non-streaming and streaming responses.
+AC4: POST /v1/embeddings endpoint is implemented.
+AC5: GET /health and GET /readiness endpoints are implemented.
+AC6: API key authentication middleware is applied to all inference endpoints.
+AC7: OpenAPI documentation is auto-generated and accurate.
+AC8: All settings are loaded from environment via pydantic-settings.
+AC9: Integration tests cover all endpoints using fake providers.
+AC10: No provider SDK types appear outside infrastructure adapters.","fastapi, evaluation",backend/fastapi-service/,Implementation complete; every AC individually verified with evidence; tests pass; service runs standalone.
+Task,NAI-AI-09,Hugging Face & Open-Source LLMs,AI Roadmap — Full Stack Agentic AI,"Load at least one open-source text generation model and one embedding model from Hugging Face Hub. Explore Datasets library and Hub Spaces. Compare inference performance and resource requirements. Document model licenses. Integrate behind the LLMProvider interface.",Python; Hugging Face Transformers; Sentence Transformers; datasets library; device placement; license documentation.,NAI-AI-03 Working with LLMs.,"AC1: At least one text generation model loads from Hugging Face Hub.
+AC2: Model license is documented in code and project notes.
+AC3: Inference produces a non-empty text output.
+AC4: An embedding model generates fixed-dimension vectors.
+AC5: HFProvider implements the LLMProvider protocol.
+AC6: Model weights are not committed to Git.
+AC7: Minimum RAM/VRAM requirements are documented.
+AC8: A public HF dataset is loaded via datasets.load_dataset(); feature names and sample row are printed.
+AC9: Tests use a fake/tiny model — no full model download in CI.","huggingface, evaluation",backend/model-serving/huggingface/ learning/09-huggingface/,Implementation complete; every AC individually verified with evidence; licenses documented; tests pass.
+Task,NAI-AI-10,Advanced LLM Features,AI Roadmap — Full Stack Agentic AI,"Implement structured JSON output, streaming token delivery, function/tool calling, and vision-capable model integration. Normalize advanced features across providers where practical.",Python; structured output via JSON schema; function calling via tool definitions; vision via multimodal messages; streaming.,NAI-AI-03 Working with LLMs; NAI-AI-08 FastAPI LLM Service.,"AC1: Structured JSON output is requested and the response is parsed and validated.
+AC2: Streaming token delivery works end-to-end from provider to client.
+AC3: Function/tool calling round-trip is demonstrated: model requests tool, tool result is fed back.
+AC4: Vision input (image URL or base64) is accepted and processed by a capable model.
+AC5: Advanced features are normalized behind the LLMProvider interface where possible.
+AC6: Unsupported features on a given provider return a structured error rather than crash.
+AC7: Tests cover structured output parsing, streaming, tool calling, and vision.","fastapi, evaluation",backend/fastapi-service/ learning/10-advanced-llm/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-11,Agentic AI,AI Roadmap — Full Stack Agentic AI,Implement a Python agent execution loop with task planning and tool selection. Enforce tool input validation and timeouts. Record execution traces. Demonstrate a bounded multi-step task completed using approved tools.,Python; agent execution loop; planning step; tool registry; step limit enforcement; trace logging.,NAI-AI-08 FastAPI LLM Service; NAI-AI-10 Advanced LLM Features.,"AC1: Agent receives a task and produces an execution plan.
+AC2: Agent selects tools from a registered tool set.
+AC3: Tool input is validated before execution.
+AC4: Tool execution has an individual timeout.
+AC5: Maximum step count is enforced — agent terminates at limit.
+AC6: Cancellation stops execution cleanly.
+AC7: Execution trace (steps, tools called, results) is recorded.
+AC8: Agent completes a bounded multi-step demo task.
+AC9: Agent logic is independent of FastAPI route handlers.
+AC10: Tests cover planning, tool selection, step limits, and cancellation.","fastapi, multi-agent, evaluation",backend/agent-runtime/agents/ learning/11-agentic-ai/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-12,LangChain,AI Roadmap — Full Stack Agentic AI,Integrate LangChain into the Nexus AI backend. Build document and tool-based workflows using LCEL chains. Wrap LangChain components behind adapters so domain interfaces stay clean.,Python; LangChain; LCEL; prompt templates; retrievers; tool definitions; output parsers; adapter pattern.,NAI-AI-08 FastAPI LLM Service; NAI-AI-09 Hugging Face.,"AC1: A RAG chain is built using LCEL (retriever | prompt | LLM | parser).
+AC2: LangChain types do not appear in domain interfaces.
+AC3: Prompt templates are externalized and versioned.
+AC4: At least one LangChain tool is defined and invoked in a chain.
+AC5: Document loader preserves source and page metadata through the chain.
+AC6: Streaming is supported through the chain.
+AC7: An adapter wraps the LangChain LLM behind the domain LLMProvider interface.
+AC8: Tests use FakeListChatModel — no real API calls.","langchain, evaluation",backend/agent-runtime/langchain/ learning/12-langchain/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-13,Memory in AI Agents,AI Roadmap — Full Stack Agentic AI,Implement session and conversation memory for the Python backend agents. Persist selected state. Retrieve relevant long-term memory. Define retention and deletion behavior.,Python; in-memory session store; persistent memory (SQLite or Redis); memory retrieval by recency and relevance; retention policy.,NAI-AI-11 Agentic AI; NAI-AI-08 FastAPI LLM Service.,"AC1: Session memory stores messages for the duration of a conversation.
+AC2: Conversation memory is persisted beyond process restart.
+AC3: Memory retrieval returns relevant history for a given query.
+AC4: Long-term memory can be queried by semantic similarity.
+AC5: Memory can be explicitly cleared per session.
+AC6: Retention policy is defined and enforced (max turns or max age).
+AC7: Memory access is mediated by a repository interface.
+AC8: Tests cover store, retrieve, clear, and retention boundary conditions.","langchain, evaluation",backend/agent-runtime/ learning/13-agent-memory/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-14,Retrieval-Augmented Generation,AI Roadmap — Full Stack Agentic AI,"Build the complete Python-side RAG pipeline: document loading and chunking through embedding generation to vector storage retrieval and bounded context assembly with source references. Includes hybrid search (semantic + BM25) via Reciprocal Rank Fusion.",Python; document loaders; text splitter; embedding provider; vector store; BM25; Reciprocal Rank Fusion; context assembly; source citation.,NAI-AI-12 LangChain; NAI-AI-15 Vector Databases.,"AC1: Documents are loaded and split into chunks with configurable overlap.
+AC2: Embeddings are generated for each chunk.
+AC3: Chunks and embeddings are stored in the vector store.
+AC4: Semantic similarity search retrieves top-K relevant chunks.
+AC5: Query rewriting is attempted when initial retrieval quality is low.
+AC6: Assembled context includes source document and page references.
+AC7: Context size is bounded — never exceeds a configurable token budget.
+AC8: Empty retrieval returns an explicit empty result — no hallucinated context.
+AC9: Hybrid search combines semantic and BM25 keyword results via RRF when RETRIEVAL_MODE=hybrid.
+AC10: Tests cover each pipeline stage independently.","langchain, vector-db, evaluation",backend/rag/ learning/14-rag/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-15,Vector Databases,AI Roadmap — Full Stack Agentic AI,Integrate ChromaDB as the vector store backend. Support vector insertion with metadata filtering and similarity search. Implement the VectorStore domain interface with a ChromaDB adapter and a fake for tests.,Python; ChromaDB; VectorStore protocol; PersistentClient; metadata filters; cosine similarity normalization.,NAI-AI-03 Working with LLMs.,"AC1: VectorStore domain interface is defined.
+AC2: ChromaVectorStoreAdapter implements the interface.
+AC3: Document chunks with metadata are inserted and retrievable.
+AC4: Similarity search returns results with normalized relevance scores.
+AC5: Metadata filters restrict results to a specific document or source.
+AC6: Delete removes all chunks for a given document_id.
+AC7: FakeVectorStore returns deterministic results for tests.
+AC8: Tests cover insert, search, filter, delete, and count operations.
+AC9: Telemetry is disabled in all configurations.","vector-db, evaluation",backend/rag/vector_store/ learning/15-vector-databases/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-16,LangGraph,AI Roadmap — Full Stack Agentic AI,Build stateful AI workflows using LangGraph. Define typed graph state and node functions. Implement conditional routing and loop prevention. Add checkpointing for resumable execution and a human-approval gate.,Python; LangGraph; TypedDict state; conditional edges; MemorySaver checkpoint; human-in-the-loop interrupt.,NAI-AI-12 LangChain; NAI-AI-11 Agentic AI.,"AC1: Graph state is defined as a typed TypedDict.
+AC2: At least three nodes are implemented as pure functions.
+AC3: Conditional routing is implemented with add_conditional_edges.
+AC4: Step counter in state prevents unbounded loops.
+AC5: MemorySaver checkpoint allows the workflow to be paused and resumed.
+AC6: A human-approval gate interrupts execution before a sensitive action.
+AC7: The workflow completes a multi-step research task end-to-end.
+AC8: Tests cover routing logic, step limits, and checkpointing.","langgraph, evaluation",backend/agent-runtime/langgraph/ learning/16-langgraph/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-17,Model Context Protocol,AI Roadmap — Full Stack Agentic AI,Implement MCP client and server integrations for the Python backend. Discover tools and resources. Validate and execute tool calls. Handle connection lifecycle and errors. Integrate with the agent runtime.,Python; MCP Python SDK; MCP client; MCP server; tool discovery; tool invocation; error mapping.,NAI-AI-11 Agentic AI; NAI-AI-08 FastAPI LLM Service.,"AC1: MCP client connects to at least one MCP server.
+AC2: Tool discovery returns the server's available tools.
+AC3: Tool invocation sends a valid request and receives a result.
+AC4: Tool input is validated against the tool schema before execution.
+AC5: MCP connection lifecycle (connect, disconnect, reconnect) is handled.
+AC6: MCP errors are mapped to domain error types.
+AC7: Timeout and cancellation are enforced on tool calls.
+AC8: An MCP server exposing at least one tool and one resource is implemented and runnable standalone.
+AC9: list_resources() returns the server's available resource catalogue.
+AC10: read_resource(uri) returns resource content; a ResourceDefinition adapter model is defined.
+AC11: MCP transport types do not appear in domain or agent code.
+AC12: Tests use a fake MCP transport.","fastapi, multi-agent, evaluation",backend/mcp/ learning/17-mcp/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-18,Multi-Agent Systems,AI Roadmap — Full Stack Agentic AI,Design and implement a multi-agent architecture with a supervisor and at least two specialist agents. Agents share a tool registry. The supervisor delegates sub-tasks and aggregates results. Safeguards prevent runaway execution.,Python; supervisor pattern; specialist agents; shared ToolRegistry; AgentResult; step limits per agent and globally.,NAI-AI-11 Agentic AI; NAI-AI-16 LangGraph.,"AC1: SupervisorAgent delegates to at least two specialist agents.
+AC2: Specialists communicate only through the supervisor — not directly.
+AC3: A shared ToolRegistry is used by all agents.
+AC4: Each specialist has an independent step limit.
+AC5: A global round limit is enforced on the supervisor.
+AC6: Cancellation of the top-level workflow stops all running specialists.
+AC7: Each agent returns a typed AgentResult.
+AC8: A bounded multi-agent research task completes end-to-end.
+AC9: Tests use fake specialists and verify delegation sequence.","multi-agent, evaluation",backend/agent-runtime/multi-agent/ learning/18-multi-agent/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-19,AI Evaluation,AI Roadmap — Full Stack Agentic AI,"Build evaluation pipelines for RAG and agent workflows. Measure faithfulness, answer relevance, and hallucinations. Construct and validate ground-truth datasets. Track latency and token cost. Generate comparable reports across model and prompt versions.","Python; RAGAS-style metrics; hallucination detection; ground-truth construction; judge LLM; EvaluationReport; latency and cost tracking; dataset versioning.",NAI-AI-14 RAG; NAI-AI-18 Multi-Agent Systems.,"AC1: A versioned evaluation dataset exists for RAG with question and reference answer pairs.
+AC2: Faithfulness score is computed for each RAG answer.
+AC3: Answer relevance score is computed for each RAG answer.
+AC4: Hallucination score (proportion of unsupported claims) is computed.
+AC5: Groundedness metric compares answer to reference answer.
+AC6: Ground-truth construction methodology is documented.
+AC7: Agent task completion rate is measured over the evaluation dataset.
+AC8: Response latency is tracked (p50 and p95).
+AC9: Token usage and estimated cost per request are tracked.
+AC10: An EvaluationReport is generated with all metric scores.
+AC11: Reports from two different model versions are comparable.
+AC12: Judge LLM uses temperature 0 for reproducibility.
+AC13: Tests cover metric calculations with hand-crafted inputs.","evaluation",backend/evaluation/ learning/19-ai-evaluation/,Implementation complete; every AC individually verified with evidence; tests pass.
+Task,NAI-AI-20,Deployment & Production AI Applications,AI Roadmap — Full Stack Agentic AI,Containerize the FastAPI service. Deploy to Google Cloud Run. Configure staging and production environments with secrets from Secret Manager. Implement structured logging. Validate rollback procedures.,Python; Docker; Cloud Run; Secret Manager; structured JSON logging; health/readiness endpoints; GitHub Actions CI/CD.,NAI-AI-08 FastAPI LLM Service; NAI-AI-19 AI Evaluation.,"AC1: FastAPI service builds a working Docker image.
+AC2: Docker Compose runs the full local stack.
+AC3: Service deploys successfully to Cloud Run staging.
+AC4: All secrets are loaded from Secret Manager — none hardcoded.
+AC5: GET /health returns 200 on the deployed service.
+AC6: GET /readiness returns 200 when dependencies are healthy.
+AC7: All logs are structured JSON consumed by Cloud Logging.
+AC8: A rollback to a previous revision is demonstrated.
+AC9: GitHub Actions workflow builds, pushes, and deploys the image.
+AC10: Production deployment documentation exists in infrastructure/deployment/runbook.md.
+AC11: Service accounts use minimum required permissions.","deployment, evaluation",infrastructure/ learning/20-production/,Implementation complete; every AC individually verified with evidence; deployed service is healthy; rollback demonstrated; documentation complete.
