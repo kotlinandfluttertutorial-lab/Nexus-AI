@@ -1,4 +1,4 @@
-# JIRA-02 — Transformer & Embeddings Explorer Screen
+# Transformer & Embeddings Explorer Screen
 
 > **Roadmap module:** 02 — Transformer Architecture & Embeddings
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -45,6 +45,12 @@ Before making any changes:
 - Use `collectAsStateWithLifecycle()` for Flow collection in Compose.
 - No business logic inside composables.
 
+## Out of Scope
+
+- Authentication and API key management
+- Full transformer attention mechanism visualisation (backend concern)
+- Any screen other than the Embeddings Explorer
+
 ## Implementation Task
 
 ### 1. Design System (`core/ui/`)
@@ -71,10 +77,10 @@ Before making any changes:
 |---|---|
 | AC1 | `NexusAiTheme` with dark and light colour schemes is applied globally. |
 | AC2 | Typography, spacing, and shape tokens are centralised in `core/ui/`. |
-| AC3 | Reusable `NexusCard`, `NexusButton`, `NexusTextField`, `LoadingIndicator`, `ErrorCard` components exist. |
-| AC4 | Components follow accessibility guidelines (content descriptions, min 48 dp touch targets). |
+| AC3 | `NexusCard`, `NexusButton`, `NexusTextField`, `LoadingIndicator`, and `ErrorCard` components exist. |
+| AC4 | All components meet accessibility guidelines (content descriptions, minimum 48 dp touch targets). |
 | AC5 | Embeddings screen renders two sentence inputs and a Get Embeddings button. |
-| AC6 | Embeddings request is sent to `/v1/embeddings`; embedding dimension is displayed. |
+| AC6 | Embeddings request is sent to `/v1/embeddings` and the returned vector dimension is displayed. |
 | AC7 | Cosine similarity is computed on-device and shown with colour coding. |
 | AC8 | Loading and error states are handled using the design system components. |
 | AC9 | Compose tests cover `NexusCard`, `NexusButton`, and the Embeddings screen states. |
@@ -101,6 +107,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-03
+- Recommended Next Ticket: JIRA-03 (Multi-Provider LLM Chat Screen)
 
 > Never claim an AC is PASS without evidence.

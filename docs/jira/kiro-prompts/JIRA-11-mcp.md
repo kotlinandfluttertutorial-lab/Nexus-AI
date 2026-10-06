@@ -1,4 +1,4 @@
-# JIRA-11 — Agentic AI Screen
+# Agentic AI Screen
 
 > **Roadmap module:** 11 — Agentic AI
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -35,6 +35,12 @@ Before making any changes:
 2. Inspect JIRA-08 FastAPI dashboard — reuse the primary Retrofit client and base URL.
 3. Inspect JIRA-02 design system — reuse `NexusCard`, status badges, loading components.
 4. Agent execution is long-running — use a coroutine with cancellation support.
+
+## Out of Scope
+
+- Creating or registering custom tools from within the app
+- Persisting agent run history
+- Agent configuration beyond max steps
 
 ## Architecture Rules
 
@@ -74,12 +80,12 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Task input and max steps stepper are shown. |
-| AC2 | Run Agent button calls the backend and shows a step counter. |
-| AC3 | Trace step cards appear progressively as execution proceeds. |
+| AC1 | Task input and max-steps stepper are shown. |
+| AC2 | Run Agent calls the backend and shows a step counter. |
+| AC3 | Step cards appear progressively as execution proceeds. |
 | AC4 | Each step card shows thought, tool name, and collapsible tool input/output. |
 | AC5 | Cancel button cancels the running coroutine and shows CANCELLED status. |
-| AC6 | STEP_LIMIT_REACHED status is displayed clearly when the limit is hit. |
+| AC6 | STEP_LIMIT_REACHED status is clearly displayed when the limit is hit. |
 | AC7 | SUCCESS result shows the final output and total steps taken. |
 | AC8 | FAILURE state shows a user-safe error message. |
 | AC9 | `RunAgentUseCase` and `AgentViewModel` are unit tested with fake repositories. |
@@ -106,6 +112,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-12
+- Recommended Next Ticket: JIRA-12 (LangChain Integration Screen)
 
 > Never claim an AC is PASS without evidence.

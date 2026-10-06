@@ -1,4 +1,4 @@
-# JIRA-09 — Hugging Face Model Browser Screen
+# Hugging Face Model Browser Screen
 
 > **Roadmap module:** 09 — Hugging Face & Open-Source LLMs
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,12 @@ Before making any changes:
 3. Inspect JIRA-02 design system — reuse `NexusCard`, `NexusChip`, and loading components.
 4. Model weights are never downloaded to the device — all inference happens on the backend.
 
+## Out of Scope
+
+- Downloading model weights to the device
+- Fine-tuning or training models
+- Browsing Hugging Face Spaces from within the app
+
 ## Architecture Rules
 
 - Model metadata is fetched from the FastAPI backend — not hardcoded in Android.
@@ -70,14 +76,14 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | Model list is fetched from the backend and displayed as cards. |
-| AC2 | Each model card shows name, license, task, and min RAM/VRAM. |
-| AC3 | Model detail bottom sheet opens on card tap and shows full info. |
-| AC4 | Model weight disclaimer is always visible on the detail sheet. |
+| AC2 | Each card shows name, license, task, and minimum RAM/VRAM. |
+| AC3 | Model detail bottom sheet opens on card tap and shows full metadata. |
+| AC4 | A model weight disclaimer is always visible on the detail sheet. |
 | AC5 | User can run an inference request and see the response with latency. |
 | AC6 | Dataset explorer shows dataset name, feature names, and one sample row. |
-| AC7 | Search filters the model list by name. |
+| AC7 | Search field filters the model list by name. |
 | AC8 | Loading and error states are handled. |
-| AC9 | Use cases and ViewModel are unit tested with fake repositories. |
+| AC9 | Use cases and `HFBrowserViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
 
 ## Workflow
@@ -103,6 +109,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-10
+- Recommended Next Ticket: JIRA-10 (Advanced LLM Features Screen)
 
 > Never claim an AC is PASS without evidence.

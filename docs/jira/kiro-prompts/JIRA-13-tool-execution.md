@@ -1,4 +1,4 @@
-# JIRA-13 — Agent Memory Screen
+# Agent Memory Screen
 
 > **Roadmap module:** 13 — Memory in AI Agents
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -35,6 +35,12 @@ Before making any changes:
 2. Inspect JIRA-08 FastAPI dashboard — reuse the primary Retrofit client.
 3. Inspect JIRA-02 design system — reuse filter chips and `NexusCard`.
 4. Memory entries may contain sensitive conversation content — never log entry content.
+
+## Out of Scope
+
+- Editing or creating memory entries
+- Cross-session memory search
+- Exporting memory data
 
 ## Architecture Rules
 
@@ -74,12 +80,12 @@ Before making any changes:
 |---|---|
 | AC1 | Memory entries are loaded for a given session ID and displayed as cards. |
 | AC2 | Category filter chips filter the visible list. |
-| AC3 | Search field filters entries by content keyword (client-side). |
-| AC4 | Retention information is shown per entry (turns remaining or Permanent). |
+| AC3 | Keyword search filters entries by content client-side. |
+| AC4 | Retention information is shown per entry. |
 | AC5 | Swipe-to-delete removes an entry with an undo snackbar. |
 | AC6 | Clear Session Memory requires a confirmation dialog before executing. |
-| AC7 | Empty state shows a "No memory entries found" card. |
-| AC8 | Memory content is never logged (verified by log inspection in tests). |
+| AC7 | Empty state shows a clear notice card. |
+| AC8 | Memory content is never written to logs. |
 | AC9 | All use cases and `MemoryViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
 
@@ -105,6 +111,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-14
+- Recommended Next Ticket: JIRA-14 (RAG Pipeline Screen)
 
 > Never claim an AC is PASS without evidence.

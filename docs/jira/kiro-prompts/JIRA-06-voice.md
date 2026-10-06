@@ -1,4 +1,4 @@
-# JIRA-06 — Flask LLM Service Integration Screen
+# Flask LLM Service Integration Screen
 
 > **Roadmap module:** 06 — LLM as a Service with Flask
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -38,6 +38,11 @@ Before making any changes:
 3. Inspect JIRA-02 design system — reuse `NexusCard`, `NexusTextField`.
 4. Flask base URL stored in DataStore — never hardcoded.
 
+## Out of Scope
+
+- Streaming responses (Flask service is non-streaming in this module)
+- Saving or exporting chat history
+
 ## Architecture Rules
 
 - Flask service is a separate Retrofit client with its own base URL (not shared with FastAPI).
@@ -71,14 +76,14 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | Flask base URL is configurable and persisted in DataStore. |
-| AC2 | Test Connection calls `GET /health` and shows Connected / Disconnected status. |
+| AC2 | Test Connection calls `GET /health` and shows Connected or Disconnected. |
 | AC3 | Available models are fetched from `GET /v1/models` and listed as chips. |
 | AC4 | User can send a chat request and see the response. |
-| AC5 | Response time (ms) is shown on the response card. |
-| AC6 | Raw request and response JSON are shown in the expandable inspector card. |
-| AC7 | Authentication error (401) shows a clear user message with a Configure Key action. |
+| AC5 | Response time in milliseconds is shown on the response card. |
+| AC6 | Raw request and response JSON are shown in an expandable inspector card. |
+| AC7 | Authentication error (401) shows a clear message with a Configure Key action. |
 | AC8 | Loading and error states are handled. |
-| AC9 | Use cases and ViewModel are unit tested with a fake repository. |
+| AC9 | Use cases and `FlaskServiceViewModel` are unit tested with a fake repository. |
 | AC10 | Debug build succeeds. |
 
 ## Workflow
@@ -103,6 +108,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-07
+- Recommended Next Ticket: JIRA-07 (API Test Runner Screen)
 
 > Never claim an AC is PASS without evidence.

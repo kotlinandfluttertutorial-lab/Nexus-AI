@@ -1,4 +1,4 @@
-# JIRA-15 — Vector Database Explorer Screen
+# Vector Database Explorer Screen
 
 > **Roadmap module:** 15 — Vector Databases
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 3. Inspect JIRA-14 RAG screen — reuse `SourceReference` domain model and relevance score bar.
 4. Relevance scores are always normalised [0–1] — never raw distances.
 
+## Out of Scope
+
+- Inserting or deleting chunks directly from the app (managed via JIRA-14 RAG Pipeline)
+- Comparing multiple vector stores
+
 ## Architecture Rules
 
 - `VectorSearchRequest` domain model: query, topK, documentIdFilter (optional).
@@ -69,9 +74,9 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Search input submits a query and displays top-K results. |
+| AC1 | Search input submits a query and displays top-K results as ranked cards. |
 | AC2 | Each result card shows rank, relevance score bar, source, and page. |
-| AC3 | Relevance score bars are colour-coded (green / amber / red) with a legend. |
+| AC3 | Relevance score bars are colour-coded with a visible legend. |
 | AC4 | Document filter chips restrict results to selected documents. |
 | AC5 | Collection stats card shows total chunk count and collection name. |
 | AC6 | Full chunk content is shown on expand in a monospace text block. |
@@ -101,6 +106,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-16
+- Recommended Next Ticket: JIRA-16 (LangGraph Workflow Screen)
 
 > Never claim an AC is PASS without evidence.

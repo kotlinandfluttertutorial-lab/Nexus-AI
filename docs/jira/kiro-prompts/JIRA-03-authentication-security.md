@@ -1,4 +1,4 @@
-# JIRA-03 — Multi-Provider LLM Chat Screen
+# Multi-Provider LLM Chat Screen
 
 > **Roadmap module:** 03 — Working with LLMs
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -37,6 +37,12 @@ Before making any changes:
 2. Inspect JIRA-01 (Retrofit setup) and JIRA-02 (design system) — reuse both.
 3. Never hardcode API keys — store in `EncryptedSharedPreferences`.
 
+## Out of Scope
+
+- Conversation persistence (delivered in a later ticket)
+- Voice input
+- Image or file attachments
+
 ## Architecture Rules
 
 - UI → ViewModel → UseCase → Repository → Retrofit (Data layer only).
@@ -71,14 +77,14 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Provider selector (OpenAI / Gemini) is shown; active provider is highlighted. |
-| AC2 | User can type and send a message; it appears in the message list. |
-| AC3 | AI response tokens stream progressively — no full-response wait. |
-| AC4 | Thinking indicator shows while waiting for the first token. |
+| AC1 | Provider selector (OpenAI / Gemini) is displayed; the active provider is highlighted. |
+| AC2 | User can type and send a message; it appears in the message list immediately. |
+| AC3 | AI response tokens stream progressively with no full-response wait. |
+| AC4 | A thinking indicator is shown while waiting for the first token. |
 | AC5 | Switching provider changes the active backend without restarting the screen. |
-| AC6 | API keys are stored in `EncryptedSharedPreferences` — never logged or hardcoded. |
+| AC6 | API keys are stored in `EncryptedSharedPreferences` and never appear in logs or source code. |
 | AC7 | Loading and error states are handled with user-safe messages. |
-| AC8 | The UI does not call provider SDKs or Retrofit directly. |
+| AC8 | The UI never calls provider SDKs or Retrofit directly. |
 | AC9 | `ChatViewModel` and `SendMessageUseCase` are unit tested with a fake repository. |
 | AC10 | Debug build succeeds. |
 
@@ -105,6 +111,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-04
+- Recommended Next Ticket: JIRA-04 (Prompt Engineering Studio Screen)
 
 > Never claim an AC is PASS without evidence.

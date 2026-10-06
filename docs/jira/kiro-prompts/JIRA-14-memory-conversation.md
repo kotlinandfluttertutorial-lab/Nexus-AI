@@ -1,4 +1,4 @@
-# JIRA-14 — RAG Pipeline Screen
+# RAG Pipeline Screen
 
 > **Roadmap module:** 14 — Retrieval-Augmented Generation
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 2. Inspect JIRA-08 FastAPI dashboard — reuse Retrofit client.
 3. Inspect JIRA-02 design system — reuse `NexusCard`, status step indicators.
 4. Document content must never be logged — only document name and processing status.
+
+## Out of Scope
+
+- Managing or deleting indexed documents from this screen (covered in JIRA-15 Vector DB Explorer)
+- Viewing raw chunk content (covered in JIRA-15 Vector DB Explorer)
 
 ## Architecture Rules
 
@@ -82,13 +87,13 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | User can pick a document via SAF (PDF / TXT / MD). |
+| AC1 | User can pick a document (PDF / TXT / MD) via the Storage Access Framework. |
 | AC2 | Pipeline stepper shows Extract → Chunk → Embed → Store with live status per stage. |
 | AC3 | Ingestion failure shows the failing stage with an error message. |
 | AC4 | Success card shows the number of chunks created. |
 | AC5 | User can enter a question and receive an answer. |
-| AC6 | Source cards show document name, page, and relevance score bar. |
-| AC7 | Hybrid search toggle changes the query mode badge. |
+| AC6 | Source cards show document name, page, and a colour-coded relevance score bar. |
+| AC7 | Hybrid search toggle changes the query mode. |
 | AC8 | Empty retrieval shows a clear notice card. |
 | AC9 | Use cases and `RagViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
@@ -115,6 +120,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-15
+- Recommended Next Ticket: JIRA-15 (Vector Database Explorer Screen)
 
 > Never claim an AC is PASS without evidence.

@@ -1,4 +1,4 @@
-# JIRA-04 — Prompt Engineering Studio Screen
+# Prompt Engineering Studio Screen
 
 > **Roadmap module:** 04 — Prompt Engineering
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -37,6 +37,12 @@ Before making any changes:
 2. Inspect JIRA-03 chat screen — reuse the message/response display and Retrofit setup.
 3. Inspect JIRA-02 design system — reuse `NexusCard`, `NexusButton`, `NexusTextField`.
 
+## Out of Scope
+
+- Saving prompt templates to a local database
+- Sharing or exporting prompts
+- Version history of prompt runs
+
 ## Architecture Rules
 
 - Prompt template definitions are data classes in the Domain layer — not hardcoded strings
@@ -73,14 +79,14 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | Strategy tab row allows switching between all four strategies. |
-| AC2 | Variable chips allow adding and substituting named placeholders in the prompt. |
+| AC2 | Variable chips allow adding and substituting named placeholders. |
 | AC3 | Rendered prompt preview updates live as variables are filled in. |
-| AC4 | Character limit is enforced — submission is blocked when over limit. |
-| AC5 | Structured output response shows a valid/invalid JSON badge. |
+| AC4 | Character limit is enforced; submission is blocked when exceeded. |
+| AC5 | Structured output response shows a valid or invalid JSON badge. |
 | AC6 | Zero-shot, few-shot, and role-based responses are displayed as plain text. |
 | AC7 | Loading and error states are handled using design system components. |
 | AC8 | `PromptRenderer` use case is unit tested with variable substitution and limit edge cases. |
-| AC9 | `RunPromptUseCase` and `PromptStudioViewModel` are unit tested with a fake repository. |
+| AC9 | `PromptStudioViewModel` is unit tested with a fake repository. |
 | AC10 | Debug build succeeds. |
 
 ## Workflow
@@ -105,6 +111,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-05
+- Recommended Next Ticket: JIRA-05 (Ollama Local Model Screen)
 
 > Never claim an AC is PASS without evidence.

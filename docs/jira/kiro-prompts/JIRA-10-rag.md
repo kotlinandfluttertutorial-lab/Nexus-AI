@@ -1,4 +1,4 @@
-# JIRA-10 — Advanced LLM Features Screen
+# Advanced LLM Features Screen
 
 > **Roadmap module:** 10 — Advanced LLM Features
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -35,6 +35,12 @@ Before making any changes:
 2. Inspect JIRA-08 FastAPI dashboard — reuse the primary Retrofit client and base URL.
 3. Inspect JIRA-03 chat screen — reuse streaming display components.
 4. Inspect JIRA-02 design system — reuse all components.
+
+## Out of Scope
+
+- Custom tool creation from within the app
+- Video or audio input
+- Saving generated images
 
 ## Architecture Rules
 
@@ -83,14 +89,14 @@ Implement a `TabRow` with four tabs:
 
 | # | Criterion |
 |---|---|
-| AC1 | Structured output tab sends a JSON schema and shows a valid/invalid badge on the response. |
-| AC2 | Streaming tab shows tokens appearing progressively with a token counter. |
+| AC1 | Structured output tab sends a JSON schema and shows a valid or invalid badge on the response. |
+| AC2 | Streaming tab shows tokens appearing progressively with a live token counter. |
 | AC3 | Time-to-first-token is measured and displayed on the streaming tab. |
 | AC4 | Tool calling tab shows the model's tool call request and the final response as separate cards. |
 | AC5 | Vision tab opens the gallery, shows the selected thumbnail, and displays the model's description. |
-| AC6 | Feature-not-supported errors show an info card — not a crash or generic error. |
+| AC6 | Feature-not-supported errors show an info card rather than crashing. |
 | AC7 | Each tab handles loading and error states independently. |
-| AC8 | Image base64 encoding runs on `Dispatchers.IO` — not the main thread. |
+| AC8 | Image base64 encoding runs off the main thread. |
 | AC9 | Each tab's ViewModel and use case are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
 
@@ -116,6 +122,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-11
+- Recommended Next Ticket: JIRA-11 (Agentic AI Screen)
 
 > Never claim an AC is PASS without evidence.

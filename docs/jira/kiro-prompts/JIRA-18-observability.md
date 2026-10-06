@@ -1,4 +1,4 @@
-# JIRA-18 — Multi-Agent System Screen
+# Multi-Agent System Screen
 
 > **Roadmap module:** 18 — Multi-Agent Systems
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 2. Inspect JIRA-11 agent screen — reuse the trace step pattern and cancellation flow.
 3. Inspect JIRA-02 design system — reuse status badges and `NexusCard`.
 4. Agent avatars are simple initials/icon cards — no image loading required.
+
+## Out of Scope
+
+- Defining or registering specialist agents from within the app
+- Viewing detailed internal agent reasoning traces
 
 ## Architecture Rules
 
@@ -75,12 +80,12 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Task input and max rounds stepper are shown. |
+| AC1 | Task input and max-rounds stepper are shown. |
 | AC2 | Supervisor and specialist agent cards are displayed with distinct visual styling. |
 | AC3 | Agent status badges update live during execution. |
 | AC4 | Round counter chip updates with each completed round. |
 | AC5 | Delegation trace entries appear as rounds complete. |
-| AC6 | Final aggregated result is shown with status badge and output text. |
+| AC6 | Aggregated result card shows status badge and output text on completion. |
 | AC7 | Communication summary card is collapsible. |
 | AC8 | Cancel button cancels execution and shows CANCELLED status. |
 | AC9 | `RunMultiAgentUseCase` and `MultiAgentViewModel` are unit tested with fake repositories. |
@@ -107,6 +112,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-19
+- Recommended Next Ticket: JIRA-19 (AI Evaluation Dashboard Screen)
 
 > Never claim an AC is PASS without evidence.

@@ -1,4 +1,4 @@
-# JIRA-12 — LangChain Integration Screen
+# LangChain Integration Screen
 
 > **Roadmap module:** 12 — LangChain
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 3. Inspect JIRA-02 design system — reuse `NexusCard`, relevance score chips.
 4. Source reference cards must always show at minimum: document name, page, and relevance score.
 
+## Out of Scope
+
+- Uploading documents from this screen (handled in JIRA-14 RAG Pipeline)
+- Chain configuration or custom chain building
+
 ## Architecture Rules
 
 - `LangChainQuery` domain model: question, chainType, topK.
@@ -72,15 +77,15 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Chain type selector (RAG / Document QA / Tool-Based) is shown. |
+| AC1 | Chain type selector (RAG / Document QA / Tool-Based) is displayed. |
 | AC2 | User can submit a question and receive an answer. |
 | AC3 | Streaming tokens appear progressively where the chain supports it. |
-| AC4 | Source reference cards show document name, page, and relevance score bar. |
+| AC4 | Source cards show document name, page, and relevance score bar. |
 | AC5 | Relevance score bars are colour-coded (green / amber / red). |
-| AC6 | Source passage preview is expandable. |
-| AC7 | Empty retrieval shows a "No relevant sources found" card. |
+| AC6 | Source passage previews are expandable. |
+| AC7 | Empty retrieval shows a clear notice card. |
 | AC8 | Tool result card appears when chain type is Tool-Based. |
-| AC9 | `RunLangChainQueryUseCase` and `LangChainViewModel` are unit tested. |
+| AC9 | `RunLangChainQueryUseCase` and `LangChainViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
 
 ## Workflow
@@ -104,6 +109,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-13
+- Recommended Next Ticket: JIRA-13 (Agent Memory Screen)
 
 > Never claim an AC is PASS without evidence.

@@ -1,4 +1,4 @@
-# JIRA-05 — Ollama Local Model Screen
+# Ollama Local Model Screen
 
 > **Roadmap module:** 05 — Self-Hosted LLMs with Ollama
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 3. Inspect JIRA-02 design system — reuse `NexusCard`, `NexusTextField`.
 4. Ollama server URL is stored in DataStore — never hardcoded.
 
+## Out of Scope
+
+- Pulling or managing Ollama models from within the app
+- Direct socket connection to Ollama from Android (all calls go through the FastAPI backend)
+
 ## Architecture Rules
 
 - Ollama server URL stored in `DataStore<Preferences>` via `OllamaSettingsRepository`.
@@ -68,11 +73,11 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | Ollama server URL is configurable, validated, and persisted in DataStore. |
-| AC2 | Test Connection button shows Connected / Disconnected status. |
-| AC3 | Model list is populated from the backend and a model can be selected. |
-| AC4 | User can send a chat message and receive a streaming response via Ollama. |
+| AC2 | Test Connection button shows Connected or Disconnected status. |
+| AC3 | Model list is fetched from the backend and a model can be selected. |
+| AC4 | Chat messages stream progressively via the selected Ollama model. |
 | AC5 | Latency (ms from send to first token) is shown on each AI response card. |
-| AC6 | OpenAI-compatible mode toggle changes the request format badge. |
+| AC6 | OpenAI-compatible mode toggle updates the active mode badge. |
 | AC7 | Connection failure shows a clear error with a retry action. |
 | AC8 | Loading and error states are handled. |
 | AC9 | `OllamaSettingsViewModel` and use cases are unit tested with fake repositories. |
@@ -101,6 +106,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-06
+- Recommended Next Ticket: JIRA-06 (Flask LLM Service Integration Screen)
 
 > Never claim an AC is PASS without evidence.

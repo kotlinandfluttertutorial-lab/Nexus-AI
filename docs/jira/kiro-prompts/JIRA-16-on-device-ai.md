@@ -1,4 +1,4 @@
-# JIRA-16 — LangGraph Workflow Screen
+# LangGraph Workflow Screen
 
 > **Roadmap module:** 16 — LangGraph
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 2. Inspect JIRA-11 agent screen — reuse the step counter pattern and cancellation flow.
 3. Inspect JIRA-02 design system — reuse status badges and `NexusCard`.
 4. Human approval gate pauses execution — the screen must remain interactive while paused.
+
+## Out of Scope
+
+- Building or editing graph definitions from within the app
+- Persisting workflow run history
 
 ## Architecture Rules
 
@@ -78,11 +83,11 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | Workflow node column shows all nodes with Pending status at start. |
-| AC2 | Nodes update to Running and then Done / Failed as execution progresses. |
+| AC2 | Nodes update to Running and then Done or Failed as execution progresses. |
 | AC3 | Step counter chip updates with each completed step. |
 | AC4 | Human Approval Gate card appears with Approve and Reject buttons. |
-| AC5 | Approving resumes the workflow; nodes continue updating. |
-| AC6 | Rejecting shows REJECTED status and stops the workflow. |
+| AC5 | Approving resumes the workflow and nodes continue updating. |
+| AC6 | Rejecting stops the workflow and shows REJECTED status. |
 | AC7 | Checkpoint ID is displayed once available. |
 | AC8 | Final summary result is shown when the workflow completes. |
 | AC9 | Use cases and `LangGraphViewModel` are unit tested with fake repositories. |
@@ -109,6 +114,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-17
+- Recommended Next Ticket: JIRA-17 (MCP Server & Tools Screen)
 
 > Never claim an AC is PASS without evidence.

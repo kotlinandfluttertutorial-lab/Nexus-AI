@@ -1,4 +1,4 @@
-# JIRA-07 — API Test Runner Screen
+# API Test Runner Screen
 
 > **Roadmap module:** 07 — LLM Service Testing (Postman & Bruno)
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -35,6 +35,12 @@ Before making any changes:
 2. Inspect JIRA-06 (Flask screen) and JIRA-08 (FastAPI screen) — reuse their Retrofit
    clients for the test targets.
 3. Inspect JIRA-02 design system — reuse `NexusCard`, status badges.
+
+## Out of Scope
+
+- Creating or editing test cases from within the app
+- Saving test run history
+- Testing against non-LLM endpoints
 
 ## Architecture Rules
 
@@ -73,12 +79,12 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | At least 5 predefined test cases are shown (health, chat, models, missing body, invalid key). |
-| AC2 | Run All Tests executes the suite and shows progress (x/5). |
-| AC3 | Each test row shows PASS / FAIL / ERROR badge and HTTP status code. |
-| AC4 | The running test is highlighted while executing. |
-| AC5 | Failed tests show expected vs actual in the expandable detail. |
-| AC6 | Test execution does not block the UI thread. |
-| AC7 | Export Results copies a text summary to the clipboard. |
+| AC2 | Run All Tests executes the suite sequentially and shows a progress counter. |
+| AC3 | Each test row shows a PASS / FAIL / ERROR badge and HTTP status code. |
+| AC4 | The currently running test row is visually highlighted. |
+| AC5 | Failed tests show expected vs actual in an expandable detail section. |
+| AC6 | Test execution never blocks the UI thread. |
+| AC7 | Export Results copies a plain-text summary to the clipboard. |
 | AC8 | `RunApiTestSuiteUseCase` is unit tested with a fake HTTP client returning controlled responses. |
 | AC9 | ViewModel state transitions (Idle → Running → Completed) are unit tested. |
 | AC10 | Debug build succeeds. |
@@ -104,6 +110,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-08
+- Recommended Next Ticket: JIRA-08 (FastAPI Service Dashboard Screen)
 
 > Never claim an AC is PASS without evidence.

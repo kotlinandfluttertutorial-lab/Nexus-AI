@@ -1,4 +1,4 @@
-# JIRA-17 — MCP Server & Tools Screen
+# MCP Server & Tools Screen
 
 > **Roadmap module:** 17 — Model Context Protocol (MCP)
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 2. Inspect JIRA-08 FastAPI dashboard — reuse Retrofit client.
 3. Inspect JIRA-02 design system — reuse `NexusCard`, status chips.
 4. The Android app does NOT connect to MCP directly — it calls the FastAPI MCP proxy endpoints.
+
+## Out of Scope
+
+- Registering or publishing MCP servers from within the app
+- Tool or resource creation
 
 ## Architecture Rules
 
@@ -79,14 +84,14 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Connection status chip shows live Connected / Disconnected status. |
-| AC2 | Tools tab lists discovered MCP tools as cards. |
-| AC3 | Tool invocation bottom sheet renders dynamic input fields from the schema. |
-| AC4 | Tool invocation result is shown in the bottom sheet. |
-| AC5 | Timeout error shows a retry action — not a generic error card. |
-| AC6 | Resources tab lists discovered MCP resources as cards. |
+| AC1 | Connection status chip shows live Connected or Disconnected status. |
+| AC2 | Tools tab lists all discovered MCP tools as cards. |
+| AC3 | Tool invocation bottom sheet renders dynamic input fields from the tool's schema. |
+| AC4 | Tool invocation result is displayed in the bottom sheet. |
+| AC5 | Timeout error shows a retry action. |
+| AC6 | Resources tab lists all discovered MCP resources as cards. |
 | AC7 | Resource content is shown in a scrollable monospace text block. |
-| AC8 | Tool arguments are never logged (verified in tests). |
+| AC8 | Tool arguments are never written to logs. |
 | AC9 | Use cases and `MCPViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
 
@@ -111,6 +116,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-18
+- Recommended Next Ticket: JIRA-18 (Multi-Agent System Screen)
 
 > Never claim an AC is PASS without evidence.

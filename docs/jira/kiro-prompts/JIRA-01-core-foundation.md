@@ -1,4 +1,4 @@
-# JIRA-01 — Android App Foundation & GenAI Screen
+# Android App Foundation & GenAI Screen
 
 > **Roadmap module:** 01 — GenAI
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -48,6 +48,12 @@ Before making any changes:
 - Domain use cases and entities have no Android/framework imports where avoidable.
 - API base URL is loaded from `local.properties` or BuildConfig — never hardcoded.
 
+## Out of Scope
+
+- Full Material 3 design system and theme tokens (delivered in JIRA-02)
+- Authentication and API key management
+- Any feature screen beyond the GenAI screen
+
 ## Implementation Task
 
 ### 1. Core Foundation
@@ -71,15 +77,15 @@ Before making any changes:
 
 | # | Criterion |
 |---|---|
-| AC1 | Clean Architecture layers (Presentation / Domain / Data) are established with correct dependency direction. |
-| AC2 | Hilt DI is configured and all dependencies are injected. |
+| AC1 | Clean Architecture layers (Presentation / Domain / Data) are in place with the correct one-way dependency direction. |
+| AC2 | Hilt DI is configured and all dependencies are constructor-injected. |
 | AC3 | Common `Result<T>` / error handling types exist in `core/domain/`. |
 | AC4 | GenAI screen renders with prompt input, temperature slider, and max_tokens field. |
 | AC5 | User can submit a prompt and receive a generated text response from the backend. |
 | AC6 | Temperature and max_tokens values are sent in the request. |
 | AC7 | Loading state is shown while the backend responds. |
 | AC8 | Error state shows a user-safe message and a retry action. |
-| AC9 | ViewModel and `GenerateTextUseCase` are unit tested with a fake repository. |
+| AC9 | `GenAiViewModel` and `GenerateTextUseCase` are unit tested using a fake repository. |
 | AC10 | Debug build succeeds. |
 
 ## Workflow

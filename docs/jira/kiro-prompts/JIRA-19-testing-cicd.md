@@ -1,4 +1,4 @@
-# JIRA-19 — AI Evaluation Dashboard Screen
+# AI Evaluation Dashboard Screen
 
 > **Roadmap module:** 19 — AI Evaluation
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 2. Inspect JIRA-08 FastAPI dashboard — reuse the primary Retrofit client.
 3. Inspect JIRA-02 design system — reuse metric badges, `NexusCard`, colour coding.
 4. Evaluation report data may come from a test suite — metrics are always [0–1] floats.
+
+## Out of Scope
+
+- Running new evaluations from within the app
+- Editing evaluation datasets
 
 ## Architecture Rules
 
@@ -77,8 +82,8 @@ Before making any changes:
 | AC3 | Operational metrics show P50 and P95 latency and cost per request. |
 | AC4 | Agent metrics are shown for agent evaluation reports. |
 | AC5 | Metric score bars are colour-coded (green / amber / red). |
-| AC6 | Two reports can be selected and compared side-by-side with delta indicators. |
-| AC7 | Filter chips filter the report list by type (RAG / Agent). |
+| AC6 | Two reports can be compared side-by-side with delta indicators. |
+| AC7 | Filter chips filter the report list by type. |
 | AC8 | Loading and error states are handled. |
 | AC9 | Use cases and `EvaluationViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
@@ -106,6 +111,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-20
+- Recommended Next Ticket: JIRA-20 (Deployment & Production Settings Screen)
 
 > Never claim an AC is PASS without evidence.

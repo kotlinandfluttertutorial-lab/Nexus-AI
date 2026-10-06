@@ -1,4 +1,4 @@
-# JIRA-20 — Deployment & Production Settings Screen
+# Deployment & Production Settings Screen
 
 > **Roadmap module:** 20 — Deployment & Production AI Applications
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -39,6 +39,11 @@ Before making any changes:
    for the entire app.
 3. API keys must use `EncryptedSharedPreferences` — never plain storage or BuildConfig literals.
 4. R8/ProGuard rules must not strip Hilt, Retrofit, Room, or serialization classes.
+
+## Out of Scope
+
+- Push notifications or remote configuration
+- In-app update mechanism
 
 ## Architecture Rules
 
@@ -84,16 +89,16 @@ Grouped settings sections:
 
 | # | Criterion |
 |---|---|
-| AC1 | Environment selector switches between Local, Stage, and Production. |
-| AC2 | Selected environment base URL is used by the primary Retrofit client immediately on switch. |
-| AC3 | Health check button calls `/health` for the selected environment and shows the result. |
-| AC4 | API keys are stored in `EncryptedSharedPreferences` and shown only as masked previews. |
-| AC5 | Theme selector changes theme immediately without restart. |
-| AC6 | About section shows app version, build type, and active environment. |
+| AC1 | Environment selector switches between Local, Stage, and Production; base URL updates immediately. |
+| AC2 | Selected environment URLs are persisted in DataStore per environment. |
+| AC3 | API keys are stored in `EncryptedSharedPreferences` and shown only as masked previews. |
+| AC4 | Theme selector changes the app theme immediately without restart. |
+| AC5 | About section shows app version, build type, and active environment. |
+| AC6 | Health check button calls `/health` for the selected environment and shows the result. |
 | AC7 | Release build succeeds with R8 enabled and no critical class stripping. |
-| AC8 | R8/ProGuard rules preserve Hilt, Retrofit, serialization, and Room classes. |
+| AC8 | R8/ProGuard rules preserve Hilt, Retrofit, Kotlin serialization, and Room. |
 | AC9 | GitHub Actions CI pipeline builds debug and runs unit tests successfully. |
-| AC10 | Secrets are externalized — no API keys or base URLs hardcoded in source. |
+| AC10 | No API keys or base URLs are hardcoded anywhere in source code. |
 | AC11 | Debug and release builds both succeed. |
 
 ## Security Requirements (Non-Negotiable)

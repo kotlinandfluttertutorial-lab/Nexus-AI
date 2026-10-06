@@ -1,4 +1,4 @@
-# JIRA-08 — FastAPI Service Dashboard Screen
+# FastAPI Service Dashboard Screen
 
 > **Roadmap module:** 08 — Building LLM Services with FastAPI
 > **Epic:** Agentic AI Full Stack — Android Client
@@ -36,6 +36,11 @@ Before making any changes:
 3. Inspect JIRA-02 design system — reuse all components.
 4. FastAPI base URL stored in DataStore; used by JIRA-09–20 as the primary backend.
 
+## Out of Scope
+
+- Streaming on the dashboard screen (demonstrated in JIRA-03 Multi-Provider Chat)
+- Per-model capability detail (covered in JIRA-09 HF Browser)
+
 ## Architecture Rules
 
 - FastAPI base URL is the single shared `HttpUrl` in the primary Retrofit module.
@@ -69,14 +74,14 @@ Before making any changes:
 | # | Criterion |
 |---|---|
 | AC1 | FastAPI base URL is configurable, persisted in DataStore, and used by the primary Retrofit client. |
-| AC2 | `/health` status card auto-refreshes and shows live green/red status. |
+| AC2 | `/health` status card auto-refreshes and shows a live green or red indicator. |
 | AC3 | `/readiness` status card shows provider health detail. |
 | AC4 | Available models are listed from `GET /v1/models`. |
 | AC5 | User can send a chat request and see the response with response time. |
-| AC6 | User can send an embedding request and see the vector dimension. |
-| AC7 | API key is stored in `EncryptedSharedPreferences` and applied as the `X-API-Key` header. |
+| AC6 | User can send an embedding request and see the returned vector dimension. |
+| AC7 | API key is stored in `EncryptedSharedPreferences` and sent as `X-API-Key`. |
 | AC8 | All error states show clear messages with retry actions. |
-| AC9 | Use cases and ViewModel are unit tested with fake repositories. |
+| AC9 | Use cases and `FastApiDashboardViewModel` are unit tested with fake repositories. |
 | AC10 | Debug build succeeds. |
 
 ## Workflow
@@ -100,6 +105,6 @@ Provide:
 - Tests Executed and Results
 - AC1–AC10 PASS/FAIL with evidence
 - Known Limitations
-- Recommended Next Ticket: JIRA-09
+- Recommended Next Ticket: JIRA-09 (Hugging Face Model Browser Screen)
 
 > Never claim an AC is PASS without evidence.
